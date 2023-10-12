@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Covidscope User tutorial</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Covidscope reimplementation";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/rust.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> Covidscope User tutorial
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">Covidscope reimplementation</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#input-file">Input file:</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#input-file-content">Input file content:</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#database-collection">Database collection</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies:</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#reimplementation-steps">Reimplementation steps:</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#activate-the-virtual-environment-if-you-created">Activate the virtual environment if you created</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">Covidscope User tutorial</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Covidscope reimplementation</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="covidscope-reimplementation">Covidscope reimplementation</h1>
+<p>theme:
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - rust</p>
+<p>The reimplementation process is straightforward. You only need three separate files to start.</p>
+<h2 id="input-file">Input file:</h2>
+<ul>
+<li>Metadata</li>
+<li>Count matrix</li>
+<li>UMAP coordinates</li>
+</ul>
+<p>Example input files are provided for your reference. Input files needed to be in .csv format.
+We assume that users have analyzed their data in one of the most popular software Seurat in R. You can output your three input files from your Seurat object by:
+* Metadata: your own metadata file in .csv format i.e. meta.csv
+* Count matrix: </p>
+<pre><code class="language-sh"># https://stackoverflow.com/questions/4558277/write-a-sparse-matrix-to-a-csv-in-r 
+colnames(dense_matrix) &lt;- c(“gene_name”, “barcode”,”expression”)
+write.csv(dense_matrix, file=”matrix.csv”, row.names=FALSE) 
+</code></pre>
+<ul>
+<li>UMAP:
+If you have run the UMAP step, otherwise please refer to Seurat UMAP method and run it first. </li>
+</ul>
+<pre><code class="language-sh">umap_coord &lt;- dplyr::as_tibble(data.frame(seurat_object@reductions$umap@cell.embeddings), rownames = &quot;id&quot;)
+colnames(umap_coord) &lt;- c(”id“, “UMAP1”,”UMAP2”)
+write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
+</code></pre>
+<h2 id="input-file-content">Input file content:</h2>
+<table>
+ <td>**File name**
+
+   </td>
+   <td>**Collection name**
+
+   </td>
+   <td>**Columns**
+
+   </td>
+  <tr>
+   <td>metadata.csv
+
+   </td>
+   <td>single_cell_meta_v4
+
+   </td>
+   <td>["id", "meta_age_category", "meta_sample_id2","meta_patient_id", "meta_dataset", "level2", "meta_severity", "meta_days_from_onset_of_symptoms", "meta_outcome", "meta_gender", "Country"]
+
+   </td>
+  </tr>
+  <tr>
+   <td>matrix.csv
+
+   </td>
+   <td>matrix
+
+   </td>
+   <td>["barcode", "gene_name","expression"]
+
+   </td>
+  </tr>
+  <tr>
+   <td>umap.csv
+
+   </td>
+   <td>umap
+
+   </td>
+   <td>["UMAP1","UMAP2", "id"]
+
+   </td>
+  </tr>
+</table>
+
+<h2 id="database-collection">Database collection</h2>
+<table>
+  <tr>
+   <td>**Column name**
+
+   </td>
+   <td>**Value format**
+
+   </td>
+   <td>**Description**
+
+   </td>
+   <td>**Example**
+
+   </td>
+  </tr>
+  <tr>
+   <td colspan="4" >Collection schema: **single_cell_meta_v4**
+   </td>
+  </tr> 
+   <td>id
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Cell barcode (unique)
+
+   </td>
+   <td>
+   </td>
+  <tr>
+   <td>meta_patient_id
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Patient identifier
+
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>meta_sample_id2
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Sample identifier (one patient may have multiple samples)
+
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>Country
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Country origin of the dataset
+
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>meta_age_category
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Age category in intervals 
+
+   </td>
+   <td>e.g. “18-30”
+
+   </td>
+  </tr>
+  <tr>
+   <td>level2
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Cell type predictions
+
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>meta_severity
+
+   </td>
+   <td>String
+
+   </td>
+   <td>The severity of the symptoms regarding patient
+
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>meta_dataset
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Dataset origin
+
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>meta_days_from_onset_of_symptoms
+
+   </td>
+   <td>Number
+
+   </td>
+   <td>Days from the onset of symptoms
+
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>meta_gender
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Gender 
+
+   </td>
+   <td>i.e. “female” or “male”
+
+   </td>
+  </tr>
+  <tr>
+   <td>meta_outcome
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Health outcome
+
+   </td>
+   <td> i.e. “diseased”, “discharged” etc.
+
+   </td>
+  </tr>
+   <td colspan="3" >Collection schema: **umap**
+
+   </td>
+   <td>
+   </td>
+  <tr>
+   <td>id
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Cell barcode (unique)
+
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>UMAP1
+
+   </td>
+   <td>String
+
+   </td>
+   <td>X-coordinate of the cell
+
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td>UMAP2
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Y-coordiante of the cell
+
+   </td>
+   <td>
+   </td>
+  </tr>
+  <tr>
+   <td colspan="4" >Collection schema: **matrix**
+
+   </td>
+   </tr>
+   <td>barcode
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Cell barcode (unique)
+
+   </td>
+   <td>
+   </td>
+  <tr>
+   <td>gene_name
+
+   </td>
+   <td>String
+
+   </td>
+   <td>Name of the gene expressed in the cell
+
+   </td>
+   <td>e.g. CD19
+
+   </td>
+  </tr>
+  <tr>
+   <td>expression
+
+   </td>
+   <td>Number
+
+   </td>
+   <td>
+   </td>
+   <td>
+   </td>
+  </tr>
+
+</table>
+
+<h2 id="dependencies">Dependencies:</h2>
+<ul>
+<li>MongoDB installed</li>
+<li>Python installed</li>
+<li>MongoDB Compass installed</li>
+</ul>
+<h2 id="reimplementation-steps">Reimplementation steps:</h2>
+<ol>
+<li>Create a database named cov19atlas_new, and create three collections namely under the database:</li>
+<li>single_cell_meta_v4 </li>
+<li>umap</li>
+<li>matrix</li>
+<li>Import the three datasets into MongoDB using MongoDB Compass</li>
+<li>single_cell_meta_v4 (meta.csv)</li>
+<li>umap (umap.csv)</li>
+<li>matrix (matrix.csv)</li>
+</ol>
+<p>All data field during import needs to be in STRING format.</p>
+<h2 id="activate-the-virtual-environment-if-you-created">Activate the virtual environment if you created</h2>
+<pre><code class="language-sh">$ git clone ...
+$ pip install -r requirements.txt
+$ export FLASK_ENV=development
+$ export FLASK_APP=manage.py
+$ flask run
+</code></pre>
+<p>You will have local version of Covidscope running at 127.0.0.1:5000 by default.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.5.3
+Build Date UTC : 2023-10-12 06:25:18.595922+00:00
+-->
