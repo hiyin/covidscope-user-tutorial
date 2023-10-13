@@ -431,14 +431,18 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 </ol>
 </li>
 <li>
-<p>Import the three datasets into MongoDB using MongoDB Compass: single_cell_meta_v4 (meta.csv), umap (umap.csv) and matrix (matrix.csv).</p>
+<p>Import the three datasets into MongoDB using MongoDB Compass, make sure all data field during import needs to be in STRING format.: </p>
+<ol>
+<li>single_cell_meta_v4 (meta.csv)</li>
+<li>umap (umap.csv) and </li>
+<li>matrix (matrix.csv).</li>
+</ol>
 </li>
 <li>
-<p>Make sure to download Covidscope web portal resources below into flask_resources directory under your $HOME, without them the web portal can't be initialized</p>
+<p>Download Covidscope web portal resources below into flask_resources directory under your $HOME, without them the web portal can't be initialized</p>
 <ol>
 <li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv">features.tsv</a></li>
-<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite">db.sqlite</a>
-Make sure all data field during import needs to be in STRING format.</li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite">db.sqlite</a></li>
 </ol>
 </li>
 <li>
@@ -475,13 +479,23 @@ $ flask run
 <p>We assume that you start with the two common files after you have collected your single-cell RNA-seq data i.e. meta data, and a count matrix folder in 10X single-cell sequencing format. </p>
 <p>Below is a example pipeline to help you to process the files.
 We asssume that you have a metadata file following our structures (if not please edit according to our example metadata)</p>
+<ol>
+<li>
 <p>Example metadata:
-* <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a>
-Example 10X format matrix folder files:
-* <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz">barcodes.tsv.gz</a>
-* [genes.tsv.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz
-* [matrix.mtx.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz
-Download them and save as into a new directory named hoehn_2021/</p>
+    <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a></p>
+</li>
+<li>
+<p>Example 10X format matrix folder files:</p>
+<ol>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz">barcodes.tsv.gz</a></li>
+<li>[genes.tsv.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz</li>
+<li>[matrix.mtx.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz<blockquote>
+<p>Download them and save as into a new directory named hoehn_2021/</p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
 <pre><code class="language-sh">meta &lt;- read.csv(&quot;importdata_metadata.csv&quot;)
 # Prepare matrix db collection source
 hoehn &lt;- Read10X(&quot;hoehn_2021/&quot;, gene.column = 1) # default tsv.gz files (downloaded from Covidscope)
@@ -552,5 +566,5 @@ write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
 
 <!--
 MkDocs version : 1.4.3
-Build Date UTC : 2023-10-13 08:16:00.473351+00:00
+Build Date UTC : 2023-10-13 08:18:36.051834+00:00
 -->
