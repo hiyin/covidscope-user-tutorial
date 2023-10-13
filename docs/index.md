@@ -1,4 +1,4 @@
-# Covidscope reimplementation 
+# Covidscope software architecture reimplementation guide 
 
 theme:
   name: readthedocs
@@ -20,9 +20,20 @@ We assume that users have analyzed their data in one of the most popular softwar
 * Metadata: your own metadata file in .csv format i.e. meta.csv
 * Count matrix: 
 ```sh
+# convert the sparse count matrix into dense matrix
 # https://stackoverflow.com/questions/4558277/write-a-sparse-matrix-to-a-csv-in-r 
-colnames(dense_matrix) <- c(“gene_name”, “barcode”,”expression”)
-write.csv(dense_matrix, file=”matrix.csv”, row.names=FALSE) 
+sparse2triples <- function(m) {
+  SM = summary(m)
+  D1 = m@Dimnames[[1]][SM[,1]]
+  D2 = m@Dimnames[[2]][SM[,2]]
+  data.frame(row=D1, col=D2, x=m@x)
+}
+
+# get matrix file
+dense_matrix <- sparse2triples(srt_obj[["RNA"]]@counts)
+
+colnames(dense_matrix) <- c("gene_name", "barcode","expression")
+write.csv(dense_matrix, file="matrix.csv", row.names=FALSE) 
 ```
 
 * UMAP:
@@ -420,11 +431,27 @@ srt_obj <- ScaleData(srt_obj, features=all.genes)
 srt_obj <- RunPCA(srt_obj, features = VariableFeatures(object = srt_obj))
 srt_obj <- RunUMAP(srt_obj, dims = 1:40)
 
-# UMAP file
+# Prepare UMAP file for database import 
 umap_coord <- dplyr::as_tibble(data.frame(srt_obj@reductions$umap@cell.embeddings
 ), rownames = "id")
 colnames(umap_coord) <- c("id", "UMAP1","UMAP2")
 write.csv(umap_coord, file="importdata_umap.csv", row.names = FALSE)
+
+# Prepare matrix file for database import 
+# input: a sparse matrix with named rows and columns (dimnames)
+# returns: a data frame representing triplets (r, c, x) suitable for writing to a CSV file
+sparse2triples <- function(m) {
+  SM = summary(m)
+  D1 = m@Dimnames[[1]][SM[,1]]
+  D2 = m@Dimnames[[2]][SM[,2]]
+  data.frame(row=D1, col=D2, x=m@x)
+}
+
+# get matrix file
+towrite_matrix <- sparse2triples(srt_obj[["RNA"]]@counts)
+colnames(towrite_matrix) <- c("gene_name", "barcode", "expression")
+# write matrix data
+write.csv(towrite_matrix, file="importdata_matrix.csv", row.names=FALSE) 
 ```
 
 For a quick reproduction of Covidscope local version, you could download our prepared and processed files and directly import them into the MongoDB:
