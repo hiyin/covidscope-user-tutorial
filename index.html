@@ -466,15 +466,13 @@ $ flask run
 <p>We assume that you start with the two common files after you have collected your single-cell RNA-seq data i.e. meta data, and a count matrix folder in 10X single-cell sequencing format. </p>
 <p>Below is a example pipeline to help you to process the files.
 We asssume that you have a metadata file following our structures (if not please edit according to our example metadata)</p>
-<ol>
-<li>Example metadata:</li>
-<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a></li>
-<li>Example 10X format matrix folder files:</li>
-<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz">barcodes.tsv.gz</a></li>
-<li>[genes.tsv.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz</li>
-<li>[matrix.mtx.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz
-Download them and save as into a new directory named hoehn_2021/</li>
-</ol>
+<p>Example metadata:
+* <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a>
+Example 10X format matrix folder files:
+* <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz">barcodes.tsv.gz</a>
+* [genes.tsv.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz
+* [matrix.mtx.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz
+Download them and save as into a new directory named hoehn_2021/</p>
 <pre><code class="language-sh">meta &lt;- read.csv(&quot;importdata_metadata.csv&quot;)
 # Prepare matrix db collection source
 hoehn &lt;- Read10X(&quot;hoehn_2021/&quot;, gene.column = 1) # default tsv.gz files (downloaded from Covidscope)
@@ -545,5 +543,5 @@ write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
 
 <!--
 MkDocs version : 1.4.3
-Build Date UTC : 2023-10-13 07:58:46.708592+00:00
+Build Date UTC : 2023-10-13 07:59:56.459487+00:00
 -->
