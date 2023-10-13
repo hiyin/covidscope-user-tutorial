@@ -357,9 +357,9 @@ Make sure all data field during import needs to be in STRING format.
 $ git clone https://github.com/hiyin/covid19_cell_atlas_portal.git
 $ cd covid19_cell_atlas_portal
 # create virtual environment
-$ python3 -m venv /path/to/your/virtual/environment
+$ python3 -m venv venv # this installs the venv folder in the current directory
+$ source venv/bin/activate
 $ pip install -r requirements.txt
-$ source /path/to/your/virtual/environment/venv/bin/activate
 # initialize database
 $ flask initdb
 # set environment
