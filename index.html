@@ -476,6 +476,7 @@ $ export FLASK_APP=manage.py
 $ flask run
 </code></pre>
 <p>You will have local version of Covidscope running at 127.0.0.1:5000 by default.</p>
+<p>You shall be able to have your own version of Covidscope running with your custom files if you could modify to the data format same as the example files we used here for demonstration!</p>
 <h2 id="prepare-your-data-for-covidscope-reimplementation">Prepare your data for Covidscope reimplementation</h2>
 <p>We assume that you start with the two common files after you have collected your single-cell RNA-seq data i.e. meta data, and a count matrix folder in 10X single-cell sequencing format. </p>
 <p>Below is a example pipeline to help you to process the files.
@@ -522,7 +523,11 @@ write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
 1. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv">matrix</a>
 2. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a>
 3. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv">umap</a></p>
-<p>You shall be able to have your own version of Covidscope running with your custom files if you could modify to the data format same as the example files we used here for demonstration!</p>
+<h1 id="how-to-use-covidscope-data">How to use Covidscope data</h1>
+<p>For any user would like to use Covidscope data, downloaded from https://covidsc.d24h.hk/data, Covidscope provide the data in 10X format therefore you can read the three .gz files using Seurat package's function <code>Read10X</code>. An example is given below</p>
+<pre><code class="language-sh">data &lt;- Read10X(&quot;lee_2020/&quot;, gene.column = 1) # default tsv.gz files (downloaded from Covidscope)
+srt_obj &lt;- CreateSeuratObject(data)
+</code></pre>
               
             </div>
           </div><footer>
@@ -566,5 +571,5 @@ write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-13 08:32:14.135571+00:00
+Build Date UTC : 2023-10-13 08:37:19.966380+00:00
 -->
