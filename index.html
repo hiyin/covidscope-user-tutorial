@@ -422,19 +422,17 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 <h2 id="reimplementation-steps">Reimplementation steps:</h2>
 <ol>
 <li>Install the system dependencies listed above, MongoDB, Python, MongoDB Compass (optional) and sqlite.</li>
-<li>Create a database in MongoDB named cov19atlas_new, and create three collections namely under the database:<ul>
-<li>single_cell_meta_v4 </li>
-<li>umap</li>
-<li>matrix</li>
-</ul>
-</li>
-<li>Import the three datasets into MongoDB using MongoDB Compass</li>
-<li>single_cell_meta_v4 (meta.csv)</li>
-<li>umap (umap.csv)</li>
-<li>matrix (matrix.csv)</li>
-<li>Make sure to download Covidscope web portal resources file into flask_resources directory under your $HOME, without them the web portal can't be initialized!</li>
-<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv">features.tsv</a></li>
-<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite">db.sqlite</a>
+<li>Create a database in MongoDB named cov19atlas_new, and create three collections namely under the database:
+ single_cell_meta_v4 
+ umap
+ matrix</li>
+<li>Import the three datasets into MongoDB using MongoDB Compass
+ single_cell_meta_v4 (meta.csv)
+ umap (umap.csv)
+ matrix (matrix.csv)</li>
+<li>Make sure to download Covidscope web portal resources file into flask_resources directory under your $HOME, without them the web portal can't be initialized!
+ <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv">features.tsv</a>
+ <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite">db.sqlite</a>
 Make sure all data field during import needs to be in STRING format.</li>
 <li>Clone the repository, install the packages for Covidscope and run the web portal code</li>
 </ol>
@@ -545,5 +543,5 @@ write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
 
 <!--
 MkDocs version : 1.4.3
-Build Date UTC : 2023-10-13 08:03:46.764599+00:00
+Build Date UTC : 2023-10-13 08:05:18.260477+00:00
 -->
