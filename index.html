@@ -12,7 +12,7 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Covidscope reimplementation";
+        var mkdocs_page_name = "Covidscope software architecture reimplementation guide";
         var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = null;
       </script>
@@ -42,7 +42,7 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href=".">Covidscope reimplementation</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">Covidscope software architecture reimplementation guide</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#input-file">Input file:</a>
     </li>
@@ -75,7 +75,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Covidscope reimplementation</li>
+      <li class="breadcrumb-item active">Covidscope software architecture reimplementation guide</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -84,7 +84,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="covidscope-reimplementation">Covidscope reimplementation</h1>
+                <h1 id="covidscope-software-architecture-reimplementation-guide">Covidscope software architecture reimplementation guide</h1>
 <p>theme:
   name: readthedocs
   highlightjs: true
@@ -102,9 +102,20 @@
 We assume that users have analyzed their data in one of the most popular software Seurat in R. You can output your three input files from your Seurat object by:
 * Metadata: your own metadata file in .csv format i.e. meta.csv
 * Count matrix: </p>
-<pre><code class="language-sh"># https://stackoverflow.com/questions/4558277/write-a-sparse-matrix-to-a-csv-in-r 
-colnames(dense_matrix) &lt;- c(“gene_name”, “barcode”,”expression”)
-write.csv(dense_matrix, file=”matrix.csv”, row.names=FALSE) 
+<pre><code class="language-sh"># convert the sparse count matrix into dense matrix
+# https://stackoverflow.com/questions/4558277/write-a-sparse-matrix-to-a-csv-in-r 
+sparse2triples &lt;- function(m) {
+  SM = summary(m)
+  D1 = m@Dimnames[[1]][SM[,1]]
+  D2 = m@Dimnames[[2]][SM[,2]]
+  data.frame(row=D1, col=D2, x=m@x)
+}
+
+# get matrix file
+dense_matrix &lt;- sparse2triples(srt_obj[[&quot;RNA&quot;]]@counts)
+
+colnames(dense_matrix) &lt;- c(&quot;gene_name&quot;, &quot;barcode&quot;,&quot;expression&quot;)
+write.csv(dense_matrix, file=&quot;matrix.csv&quot;, row.names=FALSE) 
 </code></pre>
 <ul>
 <li>UMAP:
@@ -587,5 +598,5 @@ srt_obj &lt;- CreateSeuratObject(data)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-13 08:39:26.924720+00:00
+Build Date UTC : 2023-10-13 08:40:55.782694+00:00
 -->
