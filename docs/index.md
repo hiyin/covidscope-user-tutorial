@@ -347,16 +347,17 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
     3. matrix              
 
 2. Import the three datasets into MongoDB using MongoDB Compass, make sure all data field during import needs to be in STRING format.: 
-    1. single_cell_meta_v4 (meta.csv)
-    2. umap (umap.csv) and 
-    3. matrix (matrix.csv).
+    1. single_cell_meta_v4 ([meta.csv](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv))
+    2. umap ([umap](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv)) and 
+    3. matrix ([matrix](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv)).
+
 3. Download Covidscope web portal resources below into flask_resources directory under your $HOME, without them the web portal can't be initialized
     1. [features.tsv](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv)
     2. [db.sqlite](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite)
 
 4. Clone the repository, install the packages for Covidscope and run the web portal code
 
-## Activate the virtual environment if you created
+## Quickstart guide (after data imported to MongoDB)
 ```sh
 $ git clone https://github.com/hiyin/covid19_cell_atlas_portal.git
 $ cd covid19_cell_atlas_portal
@@ -384,7 +385,7 @@ $ flask run
 ```
 You will have local version of Covidscope running at 127.0.0.1:5000 by default.
 
-# Quickstart example
+## Prepare your data for Covidscope reimplementation
 We assume that you start with the two common files after you have collected your single-cell RNA-seq data i.e. meta data, and a count matrix folder in 10X single-cell sequencing format. 
 
 Below is a example pipeline to help you to process the files.
@@ -397,8 +398,8 @@ We asssume that you have a metadata file following our structures (if not please
     1. [barcodes.tsv.gz](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz)
     2. [genes.tsv.gz](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz)
     3. [matrix.mtx.gz](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz)
-    Download them and save as into a new directory named hoehn_2021/
-
+    
+Download them and save as into a new directory named hoehn_2021/
 ```sh
 meta <- read.csv("importdata_metadata.csv")
 # Prepare matrix db collection source
@@ -424,7 +425,7 @@ colnames(umap_coord) <- c("id", "UMAP1","UMAP2")
 write.csv(umap_coord, file="importdata_umap.csv", row.names = FALSE)
 ```
 
-For a quickstart, you could download our prepared and processed files and directly import them into the MongoDB:
+For a quick reproduction of Covidscope local version, you could download our prepared and processed files and directly import them into the MongoDB:
 1. [matrix](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv)
 2. [metadata](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv)
 3. [umap](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv)
