@@ -389,9 +389,9 @@ We assume that you start with the two common files after you have collected your
 Below is a example pipeline to help you to process the files.
 We asssume that you have a metadata file following our structures (if not please edit according to our example metadata)
 
-1. Example metadata:
+Example metadata:
 * [metadata](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv)
-2. Example 10X format matrix folder files:
+Example 10X format matrix folder files:
 * [barcodes.tsv.gz](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz)
 * [genes.tsv.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz
 * [matrix.mtx.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz
