@@ -490,11 +490,11 @@ We asssume that you have a metadata file following our structures (if not please
 <ol>
 <li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz">barcodes.tsv.gz</a></li>
 <li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz">genes.tsv.gz</a></li>
-<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz">matrix.mtx.gz</a>
-Download them and save as into a new directory named hoehn_2021/</li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz">matrix.mtx.gz</a></li>
 </ol>
 </li>
 </ol>
+<p>Download them and save as into a new directory named hoehn_2021/</p>
 <pre><code class="language-sh">meta &lt;- read.csv(&quot;importdata_metadata.csv&quot;)
 # Prepare matrix db collection source
 hoehn &lt;- Read10X(&quot;hoehn_2021/&quot;, gene.column = 1) # default tsv.gz files (downloaded from Covidscope)
@@ -566,5 +566,5 @@ write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-13 08:26:09.042750+00:00
+Build Date UTC : 2023-10-13 08:27:03.909509+00:00
 -->
