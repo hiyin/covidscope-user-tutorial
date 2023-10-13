@@ -1,15 +1,8 @@
 # Covidscope software architecture reimplementation guide 
 
-theme:
-  name: readthedocs
-  highlightjs: true
-  hljs_languages:
-    - yaml
-    - rust
-
 The reimplementation process is straightforward. You only need three separate files to start.
 
-## Input file:
+## Input file
 
 * Metadata
 * Count matrix
@@ -45,7 +38,7 @@ colnames(umap_coord) <- c(”id“, “UMAP1”,”UMAP2”)
 write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 ```
 
-## Input file content:
+## Input file format
 <table>
  <td>**File name**
 
@@ -345,13 +338,13 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 
 </table>
 
-## Dependencies:
+## Dependencies
 * MongoDB installed
 * Python3.9 installed
 * MongoDB Compass installed (optional, for visual operation of the database)
 * sqlite installed
 
-## Reimplementation steps:
+## Reimplementation one-by-one steps 
 0. Install the system dependencies listed above, MongoDB, Python, MongoDB Compass (optional) and sqlite.
 1. Create a database in MongoDB named cov19atlas_new, and create three collections namely under the database
     1. single_cell_meta_v4  
