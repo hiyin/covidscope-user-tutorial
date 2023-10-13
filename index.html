@@ -434,9 +434,9 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 <li>
 <p>Import the three datasets into MongoDB using MongoDB Compass, make sure all data field during import needs to be in STRING format.: </p>
 <ol>
-<li>single_cell_meta_v4 (meta.csv)</li>
-<li>umap (umap.csv) and </li>
-<li>matrix (matrix.csv).</li>
+<li>single_cell_meta_v4 (<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">meta.csv</a>)</li>
+<li>umap (<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv">umap</a>) and </li>
+<li>matrix (<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv">matrix</a>).</li>
 </ol>
 </li>
 <li>
@@ -518,7 +518,7 @@ umap_coord &lt;- dplyr::as_tibble(data.frame(srt_obj@reductions$umap@cell.embedd
 colnames(umap_coord) &lt;- c(&quot;id&quot;, &quot;UMAP1&quot;,&quot;UMAP2&quot;)
 write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
 </code></pre>
-<p>For a quickstart, you could download our prepared and processed files and directly import them into the MongoDB:
+<p>For a quick reproduction of Covidscope local version, you could download our prepared and processed files and directly import them into the MongoDB:
 1. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv">matrix</a>
 2. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a>
 3. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv">umap</a></p>
@@ -566,5 +566,5 @@ write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-13 08:27:03.909509+00:00
+Build Date UTC : 2023-10-13 08:30:41.248116+00:00
 -->
