@@ -1,0 +1,8 @@
+site_name: Covidscope User tutorial
+
+theme:
+  name: readthedocs
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - rust
