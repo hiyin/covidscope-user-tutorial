@@ -488,11 +488,9 @@ We asssume that you have a metadata file following our structures (if not please
 <p>Example 10X format matrix folder files:</p>
 <ol>
 <li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz">barcodes.tsv.gz</a></li>
-<li>[genes.tsv.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz</li>
-<li>[matrix.mtx.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz<blockquote>
-<p>Download them and save as into a new directory named hoehn_2021/</p>
-</blockquote>
-</li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz">genes.tsv.gz</a></li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz">matrix.mtx.gz</a>
+Download them and save as into a new directory named hoehn_2021/</li>
 </ol>
 </li>
 </ol>
@@ -520,9 +518,9 @@ colnames(umap_coord) &lt;- c(&quot;id&quot;, &quot;UMAP1&quot;,&quot;UMAP2&quot;
 write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
 </code></pre>
 <p>For a quickstart, you could download our prepared and processed files and directly import them into the MongoDB:
-<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv">matrix</a>
-<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a>
-<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv">umap</a></p>
+1. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv">matrix</a>
+2. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a>
+3. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv">umap</a></p>
 <p>You shall be able to have your own version of Covidscope running with your custom files if you could modify to the data format same as the example files we used here for demonstration!</p>
               
             </div>
@@ -566,5 +564,5 @@ write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
 
 <!--
 MkDocs version : 1.4.3
-Build Date UTC : 2023-10-13 08:18:36.051834+00:00
+Build Date UTC : 2023-10-13 08:21:24.601667+00:00
 -->
