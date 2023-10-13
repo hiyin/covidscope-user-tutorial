@@ -341,19 +341,19 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 
 ## Reimplementation steps:
 0. Install the system dependencies listed above, MongoDB, Python, MongoDB Compass (optional) and sqlite.
-1. Create a database in MongoDB named cov19atlas_new, and create three collections namely under the database:
-| cov19atlas_new      |
-| ------------------- |
-| single_cell_meta_v4 | 
-| umap                |
-| matrix              | 
-2. Import the three datasets into MongoDB using MongoDB Compass: single_cell_meta_v4 (meta.csv), umap (umap.csv) and matrix (matrix.csv).
-3. Make sure to download Covidscope web portal resources below into flask_resources directory under your $HOME, without them the web portal can't be initialized
+1. Create a database in MongoDB named cov19atlas_new, and create three collections namely under the database
+    1. single_cell_meta_v4  
+    2. umap                
+    3. matrix              
 
-[features.tsv](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv)
+2. Import the three datasets into MongoDB using MongoDB Compass, make sure all data field during import needs to be in STRING format.: 
+    1. single_cell_meta_v4 (meta.csv)
+    2. umap (umap.csv) and 
+    3. matrix (matrix.csv).
+3. Download Covidscope web portal resources below into flask_resources directory under your $HOME, without them the web portal can't be initialized
+    1. [features.tsv](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv)
+    2. [db.sqlite](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite)
 
-[db.sqlite](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite)
-Make sure all data field during import needs to be in STRING format.
 4. Clone the repository, install the packages for Covidscope and run the web portal code
 
 ## Activate the virtual environment if you created
@@ -390,13 +390,14 @@ We assume that you start with the two common files after you have collected your
 Below is a example pipeline to help you to process the files.
 We asssume that you have a metadata file following our structures (if not please edit according to our example metadata)
 
-Example metadata:
-* [metadata](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv)
-Example 10X format matrix folder files:
-* [barcodes.tsv.gz](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz)
-* [genes.tsv.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz
-* [matrix.mtx.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz
-Download them and save as into a new directory named hoehn_2021/
+1. Example metadata:
+    [metadata](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv)
+
+2. Example 10X format matrix folder files:
+    1. [barcodes.tsv.gz](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz)
+    2. [genes.tsv.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz
+    3. [matrix.mtx.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz
+    > Download them and save as into a new directory named hoehn_2021/
 
 ```sh
 meta <- read.csv("importdata_metadata.csv")
@@ -424,8 +425,8 @@ write.csv(umap_coord, file="importdata_umap.csv", row.names = FALSE)
 ```
 
 For a quickstart, you could download our prepared and processed files and directly import them into the MongoDB:
-[matrix](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv)
-[metadata](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv)
-[umap](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv)
+1. [matrix](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv)
+2. [metadata](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv)
+3. [umap](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv)
 
 You shall be able to have your own version of Covidscope running with your custom files if you could modify to the data format same as the example files we used here for demonstration!
