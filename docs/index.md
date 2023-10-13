@@ -342,17 +342,17 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 ## Reimplementation steps:
 0. Install the system dependencies listed above, MongoDB, Python, MongoDB Compass (optional) and sqlite.
 1. Create a database in MongoDB named cov19atlas_new, and create three collections namely under the database:
-| cov19atlas_new |
-|----------------|
+| cov19atlas_new      |
+| ------------------- |
 | single_cell_meta_v4 | 
-| umap |
-| matrix | 
+| umap                |
+| matrix              | 
 2. Import the three datasets into MongoDB using MongoDB Compass: single_cell_meta_v4 (meta.csv), umap (umap.csv) and matrix (matrix.csv).
 3. Make sure to download Covidscope web portal resources below into flask_resources directory under your $HOME, without them the web portal can't be initialized
-| resources | Link |
-|-----------|------|
-|features.tsv|[features.tsv](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv)|
-|db.sqlite|[db.sqlite](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite)|
+
+[features.tsv](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv)
+
+[db.sqlite](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite)
 Make sure all data field during import needs to be in STRING format.
 4. Clone the repository, install the packages for Covidscope and run the web portal code
 
