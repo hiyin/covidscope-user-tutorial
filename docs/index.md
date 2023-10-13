@@ -336,10 +336,12 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 ## Dependencies:
 * MongoDB installed
 * Python installed
-* MongoDB Compass installed
+* MongoDB Compass installed (optional, for visual operation of the database)
+* sqlite installed
 
 ## Reimplementation steps:
-1. Create a database named cov19atlas_new, and create three collections namely under the database:
+0. Install the system dependencies listed above, MongoDB, Python, MongoDB Compass (optional) and sqlite.
+1. Create a database in MongoDB named cov19atlas_new, and create three collections namely under the database:
 * single_cell_meta_v4 
 * umap
 * matrix
@@ -347,21 +349,67 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 * single_cell_meta_v4 (meta.csv)
 * umap (umap.csv)
 * matrix (matrix.csv)
-
-All data field during import needs to be in STRING format.
+Make sure all data field during import needs to be in STRING format.
+3. Clone the repository, install the packages for Covidscope and run the web portal code
 
 ## Activate the virtual environment if you created
-
 ```sh
-$ git clone ...
+$ git clone https://github.com/hiyin/covid19_cell_atlas_portal.git
+$ cd covid19_cell_atlas_portal
+# create virtual environment
+$ python3 -m venv /path/to/your/virtual/environment
 $ pip install -r requirements.txt
+$ source /path/to/your/virtual/environment/venv/bin/activate
+# initialize database
+$ flask initdb
+# set environment
 $ export FLASK_ENV=development
 $ export FLASK_APP=manage.py
+# launch
 $ flask run
 ```
 You will have local version of Covidscope running at 127.0.0.1:5000 by default.
 
+# Quickstart example
+We assume that you start with the two common files after you have collected your single-cell RNA-seq data i.e. meta data, and a count matrix folder in 10X single-cell sequencing format. 
 
+Below is a example pipeline to help you to process the files.
+We asssume that you have a metadata file following our structures (if not please edit according to our example metadata)
 
+1. Example metadata:
+* [metadata](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv)
+2. Example 10X format matrix folder files:
+* [barcodes.tsv.gz](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz)
+* [genes.tsv.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz
+* [matrix.mtx.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz
+Download them and save as into a new directory named hoehn_2021/
 
+```sh
+meta <- read.csv("importdata_metadata.csv")
+# Prepare matrix db collection source
+hoehn <- Read10X("hoehn_2021/", gene.column = 1) # default tsv.gz files (downloaded from Covidscope)
+srt_obj <- CreateSeuratObject(hoehn)
+rownames(meta) <- meta$id
+metadata_frame <- srt_obj@meta.data
+univ_meta <- cbind(metadata_frame, meta)
+srt_obj <- AddMetaData(srt_obj, univ_meta)
 
+# if the user didn't have pca
+srt_obj <- NormalizeData(srt_obj)
+srt_obj <- FindVariableFeatures(srt_obj, selection.method = "vst", nfeatures = 2000)
+all.genes <- rownames(srt_obj)
+srt_obj <- ScaleData(srt_obj, features=all.genes)
+srt_obj <- RunPCA(srt_obj, features = VariableFeatures(object = srt_obj))
+srt_obj <- RunUMAP(srt_obj, dims = 1:40)
+
+# UMAP file
+umap_coord <- dplyr::as_tibble(data.frame(srt_obj@reductions$umap@cell.embeddings
+), rownames = "id")
+colnames(umap_coord) <- c("id", "UMAP1","UMAP2")
+write.csv(umap_coord, file="importdata_umap.csv", row.names = FALSE)
+```
+
+For a quickstart, you could download our prepared and processed files and directly import them into the MongoDB:
+[matrix](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv)
+[metadata](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv)
+[umap](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv)
