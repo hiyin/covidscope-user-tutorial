@@ -44,15 +44,15 @@
               <ul class="current">
                 <li class="toctree-l1 current"><a class="reference internal current" href=".">Covidscope software architecture reimplementation guide</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#input-file">Input file:</a>
+    <li class="toctree-l2"><a class="reference internal" href="#input-file">Input file</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#input-file-content">Input file content:</a>
+    <li class="toctree-l2"><a class="reference internal" href="#input-file-format">Input file format</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#database-collection">Database collection</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies:</a>
+    <li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#reimplementation-steps">Reimplementation steps:</a>
+    <li class="toctree-l2"><a class="reference internal" href="#reimplementation-one-by-one-steps">Reimplementation one-by-one steps</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#quickstart-guide-after-data-imported-to-mongodb">Quickstart guide (after data imported to MongoDB)</a>
     </li>
@@ -92,7 +92,7 @@
     - yaml
     - rust</p>
 <p>The reimplementation process is straightforward. You only need three separate files to start.</p>
-<h2 id="input-file">Input file:</h2>
+<h2 id="input-file">Input file</h2>
 <ul>
 <li>Metadata</li>
 <li>Count matrix</li>
@@ -126,7 +126,7 @@ If you have run the UMAP step, otherwise please refer to Seurat UMAP method and 
 colnames(umap_coord) &lt;- c(”id“, “UMAP1”,”UMAP2”)
 write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 </code></pre>
-<h2 id="input-file-content">Input file content:</h2>
+<h2 id="input-file-format">Input file format</h2>
 <table>
  <td>**File name**
 
@@ -425,14 +425,14 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 
 </table>
 
-<h2 id="dependencies">Dependencies:</h2>
+<h2 id="dependencies">Dependencies</h2>
 <ul>
 <li>MongoDB installed</li>
 <li>Python3.9 installed</li>
 <li>MongoDB Compass installed (optional, for visual operation of the database)</li>
 <li>sqlite installed</li>
 </ul>
-<h2 id="reimplementation-steps">Reimplementation steps:</h2>
+<h2 id="reimplementation-one-by-one-steps">Reimplementation one-by-one steps</h2>
 <ol>
 <li>Install the system dependencies listed above, MongoDB, Python, MongoDB Compass (optional) and sqlite.</li>
 <li>
@@ -599,5 +599,5 @@ srt_obj &lt;- CreateSeuratObject(data)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-13 08:48:37.699237+00:00
+Build Date UTC : 2023-10-13 08:49:16.357112+00:00
 -->
