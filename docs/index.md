@@ -395,9 +395,9 @@ We asssume that you have a metadata file following our structures (if not please
 
 2. Example 10X format matrix folder files:
     1. [barcodes.tsv.gz](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz)
-    2. [genes.tsv.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz
-    3. [matrix.mtx.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz
-    > Download them and save as into a new directory named hoehn_2021/
+    2. [genes.tsv.gz](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz)
+    3. [matrix.mtx.gz](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz)
+    Download them and save as into a new directory named hoehn_2021/
 
 ```sh
 meta <- read.csv("importdata_metadata.csv")
