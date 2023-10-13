@@ -8,7 +8,7 @@
     <title>Covidscope User tutorial</title>
     <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/theme_extra.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
     
       <script>
         // Current page data
@@ -17,13 +17,14 @@
         var mkdocs_page_url = null;
       </script>
     
+    <script src="js/jquery-3.6.0.min.js" defer></script>
     <!--[if lt IE 9]>
       <script src="js/html5shiv.min.js"></script>
     <![endif]-->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/yaml.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/rust.min.js"></script>
-      <script>hljs.highlightAll();</script> 
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/yaml.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/languages/rust.min.js"></script>
+      <script>hljs.initHighlightingOnLoad();</script> 
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -72,8 +73,8 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Covidscope reimplementation</li>
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+      <li>Covidscope reimplementation</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -414,12 +415,14 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 <h2 id="dependencies">Dependencies:</h2>
 <ul>
 <li>MongoDB installed</li>
-<li>Python installed</li>
-<li>MongoDB Compass installed</li>
+<li>Python3.9 installed</li>
+<li>MongoDB Compass installed (optional, for visual operation of the database)</li>
+<li>sqlite installed</li>
 </ul>
 <h2 id="reimplementation-steps">Reimplementation steps:</h2>
 <ol>
-<li>Create a database named cov19atlas_new, and create three collections namely under the database:</li>
+<li>Install the system dependencies listed above, MongoDB, Python, MongoDB Compass (optional) and sqlite.</li>
+<li>Create a database in MongoDB named cov19atlas_new, and create three collections namely under the database:</li>
 <li>single_cell_meta_v4 </li>
 <li>umap</li>
 <li>matrix</li>
@@ -427,16 +430,79 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 <li>single_cell_meta_v4 (meta.csv)</li>
 <li>umap (umap.csv)</li>
 <li>matrix (matrix.csv)</li>
+<li>Make sure to download Covidscope web portal resources file into flask_resources directory under your $HOME, without them the web portal can't be initialized!</li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv">features.tsv</a></li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite">db.sqlite</a>
+Make sure all data field during import needs to be in STRING format.</li>
+<li>Clone the repository, install the packages for Covidscope and run the web portal code</li>
 </ol>
-<p>All data field during import needs to be in STRING format.</p>
 <h2 id="activate-the-virtual-environment-if-you-created">Activate the virtual environment if you created</h2>
-<pre><code class="language-sh">$ git clone ...
+<pre><code class="language-sh">$ git clone https://github.com/hiyin/covid19_cell_atlas_portal.git
+$ cd covid19_cell_atlas_portal
+
+# create virtual environment
+$ python3.9 -m pip install --upgrade pip
+$ python3.9 -m venv venv # this installs the venv folder in the current directory
+$ source venv/bin/activate
 $ pip install -r requirements.txt
+
+# deactivate the environment and reactivate it for a fresh start
+$ deactivate
+$ source venv/bin/activate
+
+# initialize database download it and put it in flask_resources/ directory in yor $HOME
+mv db.sqlite $HOME/flask_resources/
+mv features.tsv $HOME/flask_resources/
+
+# set environment
 $ export FLASK_ENV=development
 $ export FLASK_APP=manage.py
+
+# launch
 $ flask run
 </code></pre>
 <p>You will have local version of Covidscope running at 127.0.0.1:5000 by default.</p>
+<h1 id="quickstart-example">Quickstart example</h1>
+<p>We assume that you start with the two common files after you have collected your single-cell RNA-seq data i.e. meta data, and a count matrix folder in 10X single-cell sequencing format. </p>
+<p>Below is a example pipeline to help you to process the files.
+We asssume that you have a metadata file following our structures (if not please edit according to our example metadata)</p>
+<ol>
+<li>Example metadata:</li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a></li>
+<li>Example 10X format matrix folder files:</li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz">barcodes.tsv.gz</a></li>
+<li>[genes.tsv.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz</li>
+<li>[matrix.mtx.gz]https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz
+Download them and save as into a new directory named hoehn_2021/</li>
+</ol>
+<pre><code class="language-sh">meta &lt;- read.csv(&quot;importdata_metadata.csv&quot;)
+# Prepare matrix db collection source
+hoehn &lt;- Read10X(&quot;hoehn_2021/&quot;, gene.column = 1) # default tsv.gz files (downloaded from Covidscope)
+srt_obj &lt;- CreateSeuratObject(hoehn)
+rownames(meta) &lt;- meta$id
+metadata_frame &lt;- srt_obj@meta.data
+univ_meta &lt;- cbind(metadata_frame, meta)
+srt_obj &lt;- AddMetaData(srt_obj, univ_meta)
+
+# if the user didn't have pca
+srt_obj &lt;- NormalizeData(srt_obj)
+srt_obj &lt;- FindVariableFeatures(srt_obj, selection.method = &quot;vst&quot;, nfeatures = 2000)
+all.genes &lt;- rownames(srt_obj)
+srt_obj &lt;- ScaleData(srt_obj, features=all.genes)
+srt_obj &lt;- RunPCA(srt_obj, features = VariableFeatures(object = srt_obj))
+srt_obj &lt;- RunUMAP(srt_obj, dims = 1:40)
+
+# UMAP file
+umap_coord &lt;- dplyr::as_tibble(data.frame(srt_obj@reductions$umap@cell.embeddings
+), rownames = &quot;id&quot;)
+colnames(umap_coord) &lt;- c(&quot;id&quot;, &quot;UMAP1&quot;,&quot;UMAP2&quot;)
+write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
+</code></pre>
+<p>For a quickstart, you could download our prepared and processed files and directly import them into the MongoDB:
+<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv">matrix</a>
+<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a>
+<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv">umap</a></p>
+<p>You shall be able to have your own version of Covidscope running with your custom files if you could modify to the data format same as the example files we used here for demonstration!</p>
               
             </div>
           </div><footer>
@@ -464,21 +530,20 @@ $ flask run
     
   </span>
 </div>
-    <script src="js/jquery-3.6.0.min.js"></script>
-    <script>var base_url = ".";</script>
-    <script src="js/theme_extra.js"></script>
-    <script src="js/theme.js"></script>
-      <script src="search/main.js"></script>
-    <script>
-        jQuery(function () {
+    <script>var base_url = '.';</script>
+    <script src="js/theme_extra.js" defer></script>
+    <script src="js/theme.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
             SphinxRtdTheme.Navigation.enable(true);
-        });
+        };
     </script>
 
 </body>
 </html>
 
 <!--
-MkDocs version : 1.5.3
-Build Date UTC : 2023-10-13 02:48:09.355639+00:00
+MkDocs version : 1.4.3
+Build Date UTC : 2023-10-13 07:57:59.526272+00:00
 -->
