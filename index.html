@@ -513,11 +513,27 @@ srt_obj &lt;- ScaleData(srt_obj, features=all.genes)
 srt_obj &lt;- RunPCA(srt_obj, features = VariableFeatures(object = srt_obj))
 srt_obj &lt;- RunUMAP(srt_obj, dims = 1:40)
 
-# UMAP file
+# Prepare UMAP file for database import 
 umap_coord &lt;- dplyr::as_tibble(data.frame(srt_obj@reductions$umap@cell.embeddings
 ), rownames = &quot;id&quot;)
 colnames(umap_coord) &lt;- c(&quot;id&quot;, &quot;UMAP1&quot;,&quot;UMAP2&quot;)
 write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
+
+# Prepare matrix file for database import 
+# input: a sparse matrix with named rows and columns (dimnames)
+# returns: a data frame representing triplets (r, c, x) suitable for writing to a CSV file
+sparse2triples &lt;- function(m) {
+  SM = summary(m)
+  D1 = m@Dimnames[[1]][SM[,1]]
+  D2 = m@Dimnames[[2]][SM[,2]]
+  data.frame(row=D1, col=D2, x=m@x)
+}
+
+# get matrix file
+towrite_matrix &lt;- sparse2triples(srt_obj[[&quot;RNA&quot;]]@counts)
+colnames(towrite_matrix) &lt;- c(&quot;gene_name&quot;, &quot;barcode&quot;, &quot;expression&quot;)
+# write matrix data
+write.csv(towrite_matrix, file=&quot;importdata_matrix.csv&quot;, row.names=FALSE) 
 </code></pre>
 <p>For a quick reproduction of Covidscope local version, you could download our prepared and processed files and directly import them into the MongoDB:
 1. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv">matrix</a>
@@ -571,5 +587,5 @@ srt_obj &lt;- CreateSeuratObject(data)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-13 08:37:19.966380+00:00
+Build Date UTC : 2023-10-13 08:39:26.924720+00:00
 -->
