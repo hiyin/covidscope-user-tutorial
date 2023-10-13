@@ -35,6 +35,7 @@ dense_matrix <- sparse2triples(srt_obj[["RNA"]]@counts)
 colnames(dense_matrix) <- c("gene_name", "barcode","expression")
 write.csv(dense_matrix, file="matrix.csv", row.names=FALSE) 
 ```
+For large-scale single-cell data we also provide utilities to convert the 10X single-cell RNA-seq data to MongoDB import collection .csv format at [here](https://github.com/hiyin/covid19_cell_atlas_portal_supp/tree/main/utilities).
 
 * UMAP:
 If you have run the UMAP step, otherwise please refer to Seurat UMAP method and run it first. 
