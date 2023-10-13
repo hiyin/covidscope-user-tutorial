@@ -335,7 +335,7 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 
 ## Dependencies:
 * MongoDB installed
-* Python installed
+* Python3.9 installed
 * MongoDB Compass installed (optional, for visual operation of the database)
 * sqlite installed
 
@@ -349,22 +349,35 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 * single_cell_meta_v4 (meta.csv)
 * umap (umap.csv)
 * matrix (matrix.csv)
+3. Make sure to download Covidscope web portal resources file into flask_resources directory under your $HOME, without them the web portal can't be initialized!
+* [features.tsv](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv)
+* [db.sqlite](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite)
 Make sure all data field during import needs to be in STRING format.
-3. Clone the repository, install the packages for Covidscope and run the web portal code
+4. Clone the repository, install the packages for Covidscope and run the web portal code
 
 ## Activate the virtual environment if you created
 ```sh
 $ git clone https://github.com/hiyin/covid19_cell_atlas_portal.git
 $ cd covid19_cell_atlas_portal
+
 # create virtual environment
-$ python3 -m venv venv # this installs the venv folder in the current directory
+$ python3.9 -m pip install --upgrade pip
+$ python3.9 -m venv venv # this installs the venv folder in the current directory
 $ source venv/bin/activate
 $ pip install -r requirements.txt
-# initialize database
-$ flask initdb
+
+# deactivate the environment and reactivate it for a fresh start
+$ deactivate
+$ source venv/bin/activate
+
+# initialize database download it and put it in flask_resources/ directory in yor $HOME
+mv db.sqlite $HOME/flask_resources/
+mv features.tsv $HOME/flask_resources/
+
 # set environment
 $ export FLASK_ENV=development
 $ export FLASK_APP=manage.py
+
 # launch
 $ flask run
 ```
@@ -413,3 +426,5 @@ For a quickstart, you could download our prepared and processed files and direct
 [matrix](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv)
 [metadata](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv)
 [umap](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv)
+
+You shall be able to have your own version of Covidscope running with your custom files if you could modify to the data format same as the example files we used here for demonstration!
