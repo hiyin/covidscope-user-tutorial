@@ -433,13 +433,17 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 <li>
 <p>Import the three datasets into MongoDB using MongoDB Compass: single_cell_meta_v4 (meta.csv), umap (umap.csv) and matrix (matrix.csv).</p>
 </li>
-<li>Make sure to download Covidscope web portal resources below into flask_resources directory under your $HOME, without them the web portal can't be initialized</li>
-</ol>
-<p><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv">features.tsv</a></p>
-<p><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite">db.sqlite</a>
-Make sure all data field during import needs to be in STRING format.</p>
+<li>
+<p>Make sure to download Covidscope web portal resources below into flask_resources directory under your $HOME, without them the web portal can't be initialized</p>
 <ol>
-<li>Clone the repository, install the packages for Covidscope and run the web portal code</li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv">features.tsv</a></li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite">db.sqlite</a>
+Make sure all data field during import needs to be in STRING format.</li>
+</ol>
+</li>
+<li>
+<p>Clone the repository, install the packages for Covidscope and run the web portal code</p>
+</li>
 </ol>
 <h2 id="activate-the-virtual-environment-if-you-created">Activate the virtual environment if you created</h2>
 <pre><code class="language-sh">$ git clone https://github.com/hiyin/covid19_cell_atlas_portal.git
@@ -548,5 +552,5 @@ write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
 
 <!--
 MkDocs version : 1.4.3
-Build Date UTC : 2023-10-13 08:15:03.044355+00:00
+Build Date UTC : 2023-10-13 08:16:00.473351+00:00
 -->
