@@ -12,7 +12,7 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Covidscope software architecture reimplementation guide";
+        var mkdocs_page_name = "Scope+ User Tutorial";
         var mkdocs_page_input_path = "index.md";
         var mkdocs_page_url = null;
       </script>
@@ -42,7 +42,7 @@
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href=".">Covidscope software architecture reimplementation guide</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">Scope+ User Tutorial</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#input-file">Input file</a>
     </li>
@@ -56,7 +56,7 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#quickstart-guide-after-data-imported-to-mongodb">Quickstart guide (after data imported to MongoDB)</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#prepare-your-data-for-covidscope-reimplementation">Prepare your data for Covidscope reimplementation</a>
+    <li class="toctree-l2"><a class="reference internal" href="#prepare-your-data-for-scope-reimplementation">Prepare your data for Scope+ reimplementation</a>
     </li>
     </ul>
                 </li>
@@ -75,7 +75,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
-      <li class="breadcrumb-item active">Covidscope software architecture reimplementation guide</li>
+      <li class="breadcrumb-item active">Scope+ User Tutorial</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -84,8 +84,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="covidscope-software-architecture-reimplementation-guide">Covidscope software architecture reimplementation guide</h1>
-<p>The reimplementation process is straightforward. You only need three separate files to start.</p>
+                <h1 id="scope-user-tutorial">Scope+ User Tutorial</h1>
+<p>This tutorial is made for Scope+ and is straightforward. You only need three separate files to start implement your own single-cell atlas portal using the Scope+ architecture.</p>
 <h2 id="input-file">Input file</h2>
 <ul>
 <li>Metadata</li>
@@ -483,7 +483,7 @@ $ flask run
 </code></pre>
 <p>You will have local version of Covidscope running at 127.0.0.1:5000 by default.</p>
 <p>You shall be able to have your own version of Covidscope running with your custom files if you could modify to the data format same as the example files we used here for demonstration!</p>
-<h2 id="prepare-your-data-for-covidscope-reimplementation">Prepare your data for Covidscope reimplementation</h2>
+<h2 id="prepare-your-data-for-scope-reimplementation">Prepare your data for Scope+ reimplementation</h2>
 <p>We assume that you start with the two common files after you have collected your single-cell RNA-seq data i.e. meta data, and a count matrix folder in 10X single-cell sequencing format. </p>
 <p>Below is a example pipeline to help you to process the files.
 We asssume that you have a metadata file following our structures (if not please edit according to our example metadata)</p>
@@ -593,5 +593,5 @@ srt_obj &lt;- CreateSeuratObject(data)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-13 08:59:29.420056+00:00
+Build Date UTC : 2023-10-21 16:59:37.532487+00:00
 -->
