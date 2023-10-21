@@ -1,6 +1,6 @@
-# Covidscope software architecture reimplementation guide 
+# Scope+ User Tutorial 
 
-The reimplementation process is straightforward. You only need three separate files to start.
+This tutorial is made for Scope+ and is straightforward. You only need three separate files to start implement your own single-cell atlas portal using the Scope+ architecture.
 
 ## Input file
 
@@ -392,7 +392,7 @@ You will have local version of Covidscope running at 127.0.0.1:5000 by default.
 
 You shall be able to have your own version of Covidscope running with your custom files if you could modify to the data format same as the example files we used here for demonstration!
 
-## Prepare your data for Covidscope reimplementation
+## Prepare your data for Scope+ reimplementation
 We assume that you start with the two common files after you have collected your single-cell RNA-seq data i.e. meta data, and a count matrix folder in 10X single-cell sequencing format. 
 
 Below is a example pipeline to help you to process the files.
