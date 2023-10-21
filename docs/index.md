@@ -9,9 +9,12 @@ This tutorial is made for Scope+ and is straightforward. You only need three sep
 * UMAP coordinates
 
 Example input files are provided for your reference. Input files needed to be in .csv format.
-We assume that users have analyzed their data in one of the most popular software Seurat in R. You can output your three input files from your Seurat object by:
+
+We assume that users have analyzed their data in one of the most popular software Seurat in R. You can output your three input files from your Seurat object.
+
 * Metadata: your own metadata file in .csv format i.e. meta.csv
 * Count matrix: 
+
 ```sh
 # convert the sparse count matrix into dense matrix
 # https://stackoverflow.com/questions/4558277/write-a-sparse-matrix-to-a-csv-in-r 
@@ -21,17 +24,18 @@ sparse2triples <- function(m) {
   D2 = m@Dimnames[[2]][SM[,2]]
   data.frame(row=D1, col=D2, x=m@x)
 }
-
 # get matrix file
 dense_matrix <- sparse2triples(srt_obj[["RNA"]]@counts)
 
 colnames(dense_matrix) <- c("gene_name", "barcode","expression")
 write.csv(dense_matrix, file="matrix.csv", row.names=FALSE) 
 ```
+
 For large-scale single-cell data we also provide utilities to convert the 10X single-cell RNA-seq data to MongoDB import collection .csv format at [here](https://github.com/hiyin/covid19_cell_atlas_portal_supp/tree/main/utilities).
 
 * UMAP:
 If you have run the UMAP step, otherwise please refer to Seurat UMAP method and run it first. 
+
 ```sh
 umap_coord <- dplyr::as_tibble(data.frame(seurat_object@reductions$umap@cell.embeddings), rownames = "id")
 colnames(umap_coord) <- c(”id“, “UMAP1”,”UMAP2”)
