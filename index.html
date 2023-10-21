@@ -92,10 +92,12 @@
 <li>Count matrix</li>
 <li>UMAP coordinates</li>
 </ul>
-<p>Example input files are provided for your reference. Input files needed to be in .csv format.
-We assume that users have analyzed their data in one of the most popular software Seurat in R. You can output your three input files from your Seurat object by:
-* Metadata: your own metadata file in .csv format i.e. meta.csv
-* Count matrix: </p>
+<p>Example input files are provided for your reference. Input files needed to be in .csv format.</p>
+<p>We assume that users have analyzed their data in one of the most popular software Seurat in R. You can output your three input files from your Seurat object by:</p>
+<ul>
+<li>Metadata: your own metadata file in .csv format i.e. meta.csv</li>
+<li>Count matrix: </li>
+</ul>
 <pre><code class="language-sh"># convert the sparse count matrix into dense matrix
 # https://stackoverflow.com/questions/4558277/write-a-sparse-matrix-to-a-csv-in-r 
 sparse2triples &lt;- function(m) {
@@ -104,7 +106,6 @@ sparse2triples &lt;- function(m) {
   D2 = m@Dimnames[[2]][SM[,2]]
   data.frame(row=D1, col=D2, x=m@x)
 }
-
 # get matrix file
 dense_matrix &lt;- sparse2triples(srt_obj[[&quot;RNA&quot;]]@counts)
 
@@ -593,5 +594,5 @@ srt_obj &lt;- CreateSeuratObject(data)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-21 17:03:44.254602+00:00
+Build Date UTC : 2023-10-21 17:05:25.159931+00:00
 -->
