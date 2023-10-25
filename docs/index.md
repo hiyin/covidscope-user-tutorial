@@ -392,9 +392,9 @@ $ export FLASK_APP=manage.py
 # launch
 $ flask run
 ```
-You will have local version of Covidscope running at 127.0.0.1:5000 by default.
+You will have local version of Scope+ running at 127.0.0.1:5000 by default.
 
-You shall be able to have your own version of Covidscope running with your custom files if you could modify to the data format same as the example files we used here for demonstration!
+You shall be able to have your own version of Scope+ running with your custom data files if you could modify to the data format same as the example files we used here for demonstration!
 
 ## Prepare your data for Scope+ reimplementation
 We assume that you start with the two common files after you have collected your single-cell RNA-seq data i.e. meta data, and a count matrix folder in 10X single-cell sequencing format. 
@@ -456,6 +456,13 @@ For a quick reproduction of Covidscope local version, you could download our pre
 1. [matrix](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv)
 2. [metadata](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv)
 3. [umap](https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv)
+
+# Demo
+https://youtu.be/nyrCot4i3kQ
+
+Watch quickstart demo at Youtube below:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nyrCot4i3kQ?si=dU6fifeE4105pYpt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 # How to use Covidscope data
 For any user would like to use Covidscope data, downloaded from https://covidsc.d24h.hk/data, Covidscope provide the data in 10X format therefore you can read the three .gz files using Seurat package's function ```Read10X```. An example is given below
