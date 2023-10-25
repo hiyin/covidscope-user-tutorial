@@ -45,12 +45,12 @@
                 <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#what-is-scope">What  is Scope+?</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#apply-scope-to-an-example-atlas-dataset">Apply Scope+ to an example atlas dataset</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a>
+    <li class="toctree-l3"><a class="reference internal" href="#system-dependencies">System Dependencies</a>
     </li>
         </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#apply-scope-to-an-example-atlas-dataset">Apply Scope+ to an example atlas dataset</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#prepare-your-data-for-scope-reimplementation">Prepare your data for Scope+ reimplementation</a>
         <ul>
@@ -97,16 +97,16 @@
 <h1 id="scope-user-tutorial">Scope+ User Tutorial</h1>
 <h2 id="what-is-scope">What  is Scope+?</h2>
 <p>Scope+ allows you to develop your own single-cell atlas portal using its architecture, and you only need three input files to make this happen!</p>
-<h2 id="apply-scope-to-an-example-atlas-dataset">Apply Scope+ to an example atlas dataset</h2>
-<p>This is a quick and minimal tutorial to show you how to adopt Scope+ architecture to your own dataset using our example dataset (which resemble yours in terms of format)!</p>
-<h3 id="dependencies">Dependencies</h3>
+<h3 id="system-dependencies">System Dependencies</h3>
 <ul>
 <li>MongoDB installed (version 5.0.9 or greater is recommended) <a href="https://www.mongodb.com/docs/v5.0/installation/">Download</a></li>
 <li>Python installed (version 3.9 is recommended) <a href="https://www.python.org/downloads/">Download</a></li>
 <li>MongoDB Compass installed (version 1.39.4 is recommended but this is optional, for visual operation of the database) <a href="https://www.mongodb.com/try/download/compass">Download</a></li>
-<li>
-<p>sqlite installed (version 3.37.0 is recommended) <a href="https://www.sqlite.org/download.html">Download</a></p>
-</li>
+<li>sqlite installed (version 3.37.0 is recommended) <a href="https://www.sqlite.org/download.html">Download</a></li>
+</ul>
+<h2 id="apply-scope-to-an-example-atlas-dataset">Apply Scope+ to an example atlas dataset</h2>
+<p>This is a quick and minimal tutorial to show you how to adopt Scope+ architecture to your own dataset using our example dataset (which resemble yours in terms of format)!</p>
+<ol>
 <li>
 <p>Install the system dependencies listed above, MongoDB, Python, MongoDB Compass (optional) and sqlite.</p>
 </li>
@@ -136,7 +136,7 @@
 <li>
 <p>Clone the repository, install the packages for Scope+ and run the web portal code</p>
 </li>
-</ul>
+</ol>
 <pre><code class="language-sh">$ git clone https://github.com/hiyin/scopeplus.git
 $ cd scopeplus
 
@@ -608,5 +608,5 @@ srt_obj &lt;- CreateSeuratObject(data)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-25 16:06:34.462582+00:00
+Build Date UTC : 2023-10-25 16:07:48.533572+00:00
 -->
