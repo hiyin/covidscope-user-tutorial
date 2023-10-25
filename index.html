@@ -252,7 +252,8 @@ dense_matrix &lt;- sparse2triples(srt_obj[[&quot;RNA&quot;]]@counts)
 colnames(dense_matrix) &lt;- c(&quot;gene_name&quot;, &quot;barcode&quot;,&quot;expression&quot;)
 write.csv(dense_matrix, file=&quot;matrix.csv&quot;, row.names=FALSE) 
 </code></pre>
-<p>For large-scale single-cell data we also provide utilities to convert the 10X single-cell RNA-seq data to MongoDB import collection .csv format at <a href="https://github.com/hiyin/scopeplus_supp/tree/main/utilities">here</a>.</p>
+<p>For large-scale single-cell data we also provide utilities to convert the 10X single-cell RNA-seq data to MongoDB import collection .csv format at <a href="https://github.com/hiyin/
+scopeplus-scripts/tree/main/utilities">here</a>.</p>
 <ul>
 <li>UMAP:
 If you have run the UMAP step, otherwise please refer to Seurat UMAP method and run it first. </li>
@@ -608,5 +609,5 @@ srt_obj &lt;- CreateSeuratObject(data)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-25 16:07:48.533572+00:00
+Build Date UTC : 2023-10-25 16:11:08.146513+00:00
 -->
