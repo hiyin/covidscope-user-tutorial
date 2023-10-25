@@ -46,19 +46,23 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#what-is-scope">What  is Scope+?</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#input-file">Input file</a>
+    <li class="toctree-l2"><a class="reference internal" href="#apply-scope-to-an-example-atlas-dataset">Apply Scope+ to an example atlas dataset</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#prepare-your-data-for-scope-reimplementation">Prepare your data for Scope+ reimplementation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#demo">Demo</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#explanation-on-input-files">Explanation on input files</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#input-file-format">Input file format</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#database-collection">Database collection</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#reimplementation-one-by-one-steps">Reimplementation one-by-one steps</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#quickstart-guide-after-data-imported-to-mongodb">Quickstart guide (after data imported to MongoDB)</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#prepare-your-data-for-scope-reimplementation">Prepare your data for Scope+ reimplementation</a>
     </li>
     </ul>
                 </li>
@@ -89,17 +93,146 @@
                 <p align="center">
   <img width="400"  src="img/Logo_gradient.png">
 </p>
+
 <h1 id="scope-user-tutorial">Scope+ User Tutorial</h1>
-<p>This tutorial is made for Scope+ and is straightforward. </p>
 <h2 id="what-is-scope">What  is Scope+?</h2>
 <p>Scope+ allows you to develop your own single-cell atlas portal using its architecture, and you only need three input files to make this happen!</p>
-<h2 id="input-file">Input file</h2>
+<h2 id="apply-scope-to-an-example-atlas-dataset">Apply Scope+ to an example atlas dataset</h2>
+<p>This is a quick and minimal tutorial to show you how to adopt Scope+ architecture to your own dataset using our example dataset (which resemble yours in terms of format)!</p>
+<ol>
+<li>Install the system dependencies listed above, MongoDB, Python, MongoDB Compass (optional) and sqlite.</li>
+</ol>
+<h3 id="dependencies">Dependencies</h3>
+<ul>
+<li>MongoDB installed (version 5.0.9 or greater is recommended) <a href="https://www.mongodb.com/docs/v5.0/installation/">Download</a></li>
+<li>Python installed (version 3.9 is recommended) <a href="https://www.python.org/downloads/">Download</a></li>
+<li>MongoDB Compass installed (version 1.39.4 is recommended but this is optional, for visual operation of the database) <a href="https://www.mongodb.com/try/download/compass">Download</a></li>
+<li>
+<p>sqlite installed (version 3.37.0 is recommended) <a href="https://www.sqlite.org/download.html">Download</a></p>
+</li>
+<li>
+<p>Create a database in MongoDB named cov19atlas_new, and create three collections namely under the database</p>
+<ol>
+<li>single_cell_meta_v4  </li>
+<li>umap                </li>
+<li>matrix              </li>
+</ol>
+</li>
+<li>
+<p>Import the three example data files, which we provided for you, into MongoDB using MongoDB Compass, make sure all value fields during import needs to be in <strong>STRING</strong> format.: </p>
+<ol>
+<li>single_cell_meta_v4 (<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">importdata_meta.csv</a>)</li>
+<li>umap (<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv">importdata_umap.csv</a>) and </li>
+<li>matrix (<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv">importdata_matrix.csv</a>).</li>
+</ol>
+</li>
+<li>
+<p>Download Scope+ web portal resources below into a directory i.e. your <strong>$HOME/flask_resources/</strong>, without them the web portal can't be initialized</p>
+<ol>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv">features.tsv</a> - example gene list</li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite">db.sqlite</a> - example user database</li>
+</ol>
+</li>
+<li>
+<p>Clone the repository, install the packages for Scope+ and run the web portal code</p>
+</li>
+</ul>
+<pre><code class="language-sh">$ git clone https://github.com/hiyin/scopeplus.git
+$ cd scopeplus
+
+# create virtual environment
+$ python3.9 -m pip install --upgrade pip
+$ python3.9 -m venv venv # this installs the venv folder in the current directory
+$ source venv/bin/activate
+$ pip install -r requirements.txt
+
+# deactivate the environment and reactivate it for a fresh start
+$ deactivate
+$ source venv/bin/activate
+
+# initialize database download it and put it in flask_resources/ directory in yor $HOME
+mv db.sqlite $HOME/flask_resources/
+mv features.tsv $HOME/flask_resources/
+
+# set environment
+$ export FLASK_ENV=development
+$ export FLASK_APP=manage.py
+
+# launch
+$ flask run
+</code></pre>
+<p>You will have local version of Scope+ running at 127.0.0.1:5000 by default.</p>
+<p>You shall be able to have your own version of Scope+ running with your custom data files if you could modify to the data format same as the example files we used here for demonstration!</p>
+<h2 id="prepare-your-data-for-scope-reimplementation">Prepare your data for Scope+ reimplementation</h2>
+<p>Now is your turn! If you are able to follow the small tutorial above, try replace the DB with your own integrated atlas-scale datasets. we assume that you start with the two common files after you have collected your single-cell RNA-seq data i.e. meta data, and a count matrix folder in 10X single-cell sequencing format. </p>
+<p>You could integrate your datasets using your favorite integration tools, we used scMerge2 in our case.  </p>
+<p>Below is a pipeline to help you to process the files using example dataset.
+We asssume that you have a metadata file following our structures (if not please edit according to our example metadata)</p>
+<ol>
+<li>
+<p>Example metadata:
+    <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a></p>
+</li>
+<li>
+<p>Example 10X format matrix folder files:</p>
+<ol>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz">barcodes.tsv.gz</a></li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz">genes.tsv.gz</a></li>
+<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz">matrix.mtx.gz</a></li>
+</ol>
+</li>
+</ol>
+<p>Download them and save as into a new directory named hoehn_2021/</p>
+<pre><code class="language-sh">meta &lt;- read.csv(&quot;importdata_metadata.csv&quot;)
+# Prepare matrix db collection source
+hoehn &lt;- Read10X(&quot;hoehn_2021/&quot;, gene.column = 1) # default tsv.gz files (downloaded from Covidscope)
+srt_obj &lt;- CreateSeuratObject(hoehn)
+rownames(meta) &lt;- meta$id
+metadata_frame &lt;- srt_obj@meta.data
+univ_meta &lt;- cbind(metadata_frame, meta)
+srt_obj &lt;- AddMetaData(srt_obj, univ_meta)
+
+# if the user didn't have pca
+srt_obj &lt;- NormalizeData(srt_obj)
+srt_obj &lt;- FindVariableFeatures(srt_obj, selection.method = &quot;vst&quot;, nfeatures = 2000)
+all.genes &lt;- rownames(srt_obj)
+srt_obj &lt;- ScaleData(srt_obj, features=all.genes)
+srt_obj &lt;- RunPCA(srt_obj, features = VariableFeatures(object = srt_obj))
+srt_obj &lt;- RunUMAP(srt_obj, dims = 1:40)
+
+# Prepare UMAP file for database import 
+umap_coord &lt;- dplyr::as_tibble(data.frame(srt_obj@reductions$umap@cell.embeddings
+), rownames = &quot;id&quot;)
+colnames(umap_coord) &lt;- c(&quot;id&quot;, &quot;UMAP1&quot;,&quot;UMAP2&quot;)
+write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
+
+# Prepare matrix file for database import 
+# input: a sparse matrix with named rows and columns (dimnames)
+# returns: a data frame representing triplets (r, c, x) suitable for writing to a CSV file
+sparse2triples &lt;- function(m) {
+  SM = summary(m)
+  D1 = m@Dimnames[[1]][SM[,1]]
+  D2 = m@Dimnames[[2]][SM[,2]]
+  data.frame(row=D1, col=D2, x=m@x)
+}
+
+# get matrix file
+towrite_matrix &lt;- sparse2triples(srt_obj[[&quot;RNA&quot;]]@counts)
+colnames(towrite_matrix) &lt;- c(&quot;gene_name&quot;, &quot;barcode&quot;, &quot;expression&quot;)
+# write matrix data
+write.csv(towrite_matrix, file=&quot;importdata_matrix.csv&quot;, row.names=FALSE) 
+</code></pre>
+<h3 id="demo">Demo</h3>
+<p>If the whole reimplementation process is successful by following the tutorial, you will have a working atlas web portal same as the one at Youtube video below:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nyrCot4i3kQ?si=dU6fifeE4105pYpt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<h2 id="explanation-on-input-files">Explanation on input files</h2>
+<p>Example input files are provided for your reference. You need the following three input files in Scope+ to be imported into MongoDB and they needed to be in .csv format.</p>
 <ul>
 <li>Metadata</li>
 <li>Count matrix</li>
 <li>UMAP coordinates</li>
 </ul>
-<p>Example input files are provided for your reference. Input files needed to be in .csv format.</p>
 <p>We assume that users have analyzed their data in one of the most popular software Seurat in R. You can output your three input files from your Seurat object.</p>
 <ul>
 <li>Metadata: your own metadata file in .csv format i.e. meta.csv</li>
@@ -119,7 +252,7 @@ dense_matrix &lt;- sparse2triples(srt_obj[[&quot;RNA&quot;]]@counts)
 colnames(dense_matrix) &lt;- c(&quot;gene_name&quot;, &quot;barcode&quot;,&quot;expression&quot;)
 write.csv(dense_matrix, file=&quot;matrix.csv&quot;, row.names=FALSE) 
 </code></pre>
-<p>For large-scale single-cell data we also provide utilities to convert the 10X single-cell RNA-seq data to MongoDB import collection .csv format at <a href="https://github.com/hiyin/covid19_cell_atlas_portal_supp/tree/main/utilities">here</a>.</p>
+<p>For large-scale single-cell data we also provide utilities to convert the 10X single-cell RNA-seq data to MongoDB import collection .csv format at <a href="https://github.com/hiyin/scopeplus_supp/tree/main/utilities">here</a>.</p>
 <ul>
 <li>UMAP:
 If you have run the UMAP step, otherwise please refer to Seurat UMAP method and run it first. </li>
@@ -427,136 +560,6 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 
 </table>
 
-<h2 id="dependencies">Dependencies</h2>
-<ul>
-<li>MongoDB installed (version 5.0.9 or greater is recommended) <a href="https://www.mongodb.com/docs/v5.0/installation/">Download</a></li>
-<li>Python installed (version 3.9 is recommended) <a href="https://www.python.org/downloads/">Download</a></li>
-<li>MongoDB Compass installed (version 1.39.4 is recommended but this is optional, for visual operation of the database) <a href="https://www.mongodb.com/try/download/compass">Download</a></li>
-<li>sqlite installed (version 3.37.0 is recommended) <a href="https://www.sqlite.org/download.html">Download</a></li>
-</ul>
-<h2 id="reimplementation-one-by-one-steps">Reimplementation one-by-one steps</h2>
-<ol>
-<li>Install the system dependencies listed above, MongoDB, Python, MongoDB Compass (optional) and sqlite.</li>
-<li>
-<p>Create a database in MongoDB named cov19atlas_new, and create three collections namely under the database</p>
-<ol>
-<li>single_cell_meta_v4  </li>
-<li>umap                </li>
-<li>matrix              </li>
-</ol>
-</li>
-<li>
-<p>Import the three datasets into MongoDB using MongoDB Compass, make sure all data field during import needs to be in STRING format.: </p>
-<ol>
-<li>single_cell_meta_v4 (<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">importdata_meta.csv</a>)</li>
-<li>umap (<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv">importdata_umap.csv</a>) and </li>
-<li>matrix (<a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv">importdata_matrix.csv</a>).</li>
-</ol>
-</li>
-<li>
-<p>Download Covidscope web portal resources below into flask_resources directory under your $HOME, without them the web portal can't be initialized</p>
-<ol>
-<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/features.tsv">features.tsv</a></li>
-<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/db.sqlite">db.sqlite</a></li>
-</ol>
-</li>
-<li>
-<p>Clone the repository, install the packages for Covidscope and run the web portal code</p>
-</li>
-</ol>
-<h2 id="quickstart-guide-after-data-imported-to-mongodb">Quickstart guide (after data imported to MongoDB)</h2>
-<pre><code class="language-sh">$ git clone https://github.com/hiyin/covid19_cell_atlas_portal.git
-$ cd covid19_cell_atlas_portal
-
-# create virtual environment
-$ python3.9 -m pip install --upgrade pip
-$ python3.9 -m venv venv # this installs the venv folder in the current directory
-$ source venv/bin/activate
-$ pip install -r requirements.txt
-
-# deactivate the environment and reactivate it for a fresh start
-$ deactivate
-$ source venv/bin/activate
-
-# initialize database download it and put it in flask_resources/ directory in yor $HOME
-mv db.sqlite $HOME/flask_resources/
-mv features.tsv $HOME/flask_resources/
-
-# set environment
-$ export FLASK_ENV=development
-$ export FLASK_APP=manage.py
-
-# launch
-$ flask run
-</code></pre>
-<p>You will have local version of Scope+ running at 127.0.0.1:5000 by default.</p>
-<p>You shall be able to have your own version of Scope+ running with your custom data files if you could modify to the data format same as the example files we used here for demonstration!</p>
-<h2 id="prepare-your-data-for-scope-reimplementation">Prepare your data for Scope+ reimplementation</h2>
-<p>We assume that you start with the two common files after you have collected your single-cell RNA-seq data i.e. meta data, and a count matrix folder in 10X single-cell sequencing format. </p>
-<p>Below is a example pipeline to help you to process the files.
-We asssume that you have a metadata file following our structures (if not please edit according to our example metadata)</p>
-<ol>
-<li>
-<p>Example metadata:
-    <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a></p>
-</li>
-<li>
-<p>Example 10X format matrix folder files:</p>
-<ol>
-<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/barcodes.tsv.gz">barcodes.tsv.gz</a></li>
-<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/genes.tsv.gz">genes.tsv.gz</a></li>
-<li><a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/raw/hoehn/matrix.mtx.gz">matrix.mtx.gz</a></li>
-</ol>
-</li>
-</ol>
-<p>Download them and save as into a new directory named hoehn_2021/</p>
-<pre><code class="language-sh">meta &lt;- read.csv(&quot;importdata_metadata.csv&quot;)
-# Prepare matrix db collection source
-hoehn &lt;- Read10X(&quot;hoehn_2021/&quot;, gene.column = 1) # default tsv.gz files (downloaded from Covidscope)
-srt_obj &lt;- CreateSeuratObject(hoehn)
-rownames(meta) &lt;- meta$id
-metadata_frame &lt;- srt_obj@meta.data
-univ_meta &lt;- cbind(metadata_frame, meta)
-srt_obj &lt;- AddMetaData(srt_obj, univ_meta)
-
-# if the user didn't have pca
-srt_obj &lt;- NormalizeData(srt_obj)
-srt_obj &lt;- FindVariableFeatures(srt_obj, selection.method = &quot;vst&quot;, nfeatures = 2000)
-all.genes &lt;- rownames(srt_obj)
-srt_obj &lt;- ScaleData(srt_obj, features=all.genes)
-srt_obj &lt;- RunPCA(srt_obj, features = VariableFeatures(object = srt_obj))
-srt_obj &lt;- RunUMAP(srt_obj, dims = 1:40)
-
-# Prepare UMAP file for database import 
-umap_coord &lt;- dplyr::as_tibble(data.frame(srt_obj@reductions$umap@cell.embeddings
-), rownames = &quot;id&quot;)
-colnames(umap_coord) &lt;- c(&quot;id&quot;, &quot;UMAP1&quot;,&quot;UMAP2&quot;)
-write.csv(umap_coord, file=&quot;importdata_umap.csv&quot;, row.names = FALSE)
-
-# Prepare matrix file for database import 
-# input: a sparse matrix with named rows and columns (dimnames)
-# returns: a data frame representing triplets (r, c, x) suitable for writing to a CSV file
-sparse2triples &lt;- function(m) {
-  SM = summary(m)
-  D1 = m@Dimnames[[1]][SM[,1]]
-  D2 = m@Dimnames[[2]][SM[,2]]
-  data.frame(row=D1, col=D2, x=m@x)
-}
-
-# get matrix file
-towrite_matrix &lt;- sparse2triples(srt_obj[[&quot;RNA&quot;]]@counts)
-colnames(towrite_matrix) &lt;- c(&quot;gene_name&quot;, &quot;barcode&quot;, &quot;expression&quot;)
-# write matrix data
-write.csv(towrite_matrix, file=&quot;importdata_matrix.csv&quot;, row.names=FALSE) 
-</code></pre>
-<p>For a quick reproduction of Covidscope local version, you could download our prepared and processed files and directly import them into the MongoDB:
-1. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_matrix.csv">matrix</a>
-2. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_metadata.csv">metadata</a>
-3. <a href="https://covidscope-public-repository.s3.ap-east-1.amazonaws.com/user-tutorial/importdata_umap.csv">umap</a></p>
-<h1 id="demo">Demo</h1>
-<p>If the whole reimplementation process is successful by following the tutorial, you will have a working atlas web portal same as the one at Youtube video below:</p>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/nyrCot4i3kQ?si=dU6fifeE4105pYpt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
 <h1 id="how-to-use-covidscope-data">How to use Covidscope data</h1>
 <p>For any user would like to use Covidscope data, downloaded from https://covidsc.d24h.hk/data, Covidscope provide the data in 10X format therefore you can read the three .gz files using Seurat package's function <code>Read10X</code>. An example is given below</p>
 <pre><code class="language-sh">data &lt;- Read10X(&quot;lee_2020/&quot;, gene.column = 1) # default tsv.gz files (downloaded from Covidscope)
@@ -605,5 +608,5 @@ srt_obj &lt;- CreateSeuratObject(data)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-25 15:45:36.333255+00:00
+Build Date UTC : 2023-10-25 16:04:38.008468+00:00
 -->
