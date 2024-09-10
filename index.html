@@ -589,6 +589,10 @@ data &lt;- cluster_cells(data)  # assuming you have the expression matrix of all
 clustering_result &lt;- data@clusters$UMAP$cluster_result$optim_res$membership
 </code></pre>
 <p>Based on the clustering result, cluster 18 has &gt; 75 % of severe cells, suggesting enrichment of this cluster in severe cells. Additionally, we used Shannon’s diversity index to quantify diversity of the cells in each cluster belonging to multiple datasets. Cluster 18 has high Shannon’s diversity index, suggesting this cluster contains cells from multiple datasets that have clustered together due to similar expression pattern.  </p>
+<p align="center">
+  <img width="800"  src="img/Case1-Fig1.png">
+</p>
+
 <p>Next, we use marker gene identification algorithm to find marker genes to learn the characteristic of this cluster. </p>
 <pre><code># here we use scran, a popular single-cell analytical package to find marker genes in cluster 18. 
 groups &lt;- clustering_result # the clustering result from previous stsep 
@@ -603,6 +607,10 @@ Increased FCER1A expression could point to an enhanced inflammatory response.
 This highlights the power of the atlas in revealing common immune signatures across different datasets. </p>
 <h3 id="case-study-2-combining-20-studies-allows-age-based-comparison">Case study 2: Combining 20 studies allows age - based comparison</h3>
 <p>The power of combining multiple data sets is that it opens the opportunity to examine various sub-populations across many data sets. For example, the figure below shows the age distribution of all samples in the 20 datasets. Each age group has large number of samples that can be used for downstream analysis. In this case study, we compare the molecular characteristics underlying mild and severe patients and assess how they differ in the two age groups of 41- 50 and 71-80. Note that this comparison is not possible if we only had individual study, due to the limited number of individuals in each age group in individual study.</p>
+<p align="center">
+  <img width="800"  src="img/Case2-Fig1.png">
+</p>
+
 <p>To assess the molecular characteristics behind each patient, we can first extract a series of patient-based feature representation from the cellxgene expression matrix. This can be constructed using the package scFeatures which generate a range of feature types belonging to cell type proportion, cell type gene expression, bulk gene expression, pathway expression and cell cell communication. Note we have already computed the feature representations for all individuals from the 20 datasets and is also available for visualisation on the Covidscope web portal. </p>
 <pre><code>library(scFeatures) 
 scfeatures_result &lt;- scFeatures(data =  data_expression_matrix,  # assuming you have downloaded the gene expression matrix from the 41-50 and 71-80 age group 
@@ -623,7 +631,14 @@ classifyr_result &lt;- crossValidate(scfeatures_result,
 </code></pre>
 <p>In the accuracy boxplot below, we can see that each of the feature types have different performance for the 41-50 and the 71-80 age group. For example, some feature types are able to accurately distinguish the mild and severe patients in the 41 - 50 age group, but not for the 71-80 age group, and vice versa. </p>
 <p>Next, we select the feature type “pathway GSVA comorbidity” and do further exploration. This feature type represents the pathway enrichment of genes in multiple comorbidity conditions. It achieved 80% accuracy on distinguishing the mild and severe patients in the 71-80 age group, but drop to near 65% accuracy for the 41- 50 age group. </p>
+<p align="center">
+  <img width="800"  src="img/Case2-Fig2.png">
+</p>
+
 <p>By visualing the pathway enrichment score using heatmap, it becomes clear that in the 71-80 age group, the severe/critical patients have higher pathway enrichment in comorbidities such as heart disease, pulmonary disease and hypertension compared to the mild/moderate patient. In comparison, there is no clear distinguishing pattern in the 41-50 age group. This is consistent with the general belief that older individuals with pre-existing health conditions are more vulnerable to severe outcomes from COVID-19. </p>
+<p align="center">
+  <img width="800"  src="img/Case2-Fig3.png">
+</p>
               
             </div>
           </div><footer>
@@ -667,5 +682,5 @@ classifyr_result &lt;- crossValidate(scfeatures_result,
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2024-09-10 14:46:39.832520+00:00
+Build Date UTC : 2024-09-10 15:24:26.598951+00:00
 -->
