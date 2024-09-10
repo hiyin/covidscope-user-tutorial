@@ -465,9 +465,101 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 
 </table>
 
-# How to use Covidscope data
+## How to use Covidscope data
 For any user would like to use Covidscope data, downloaded from https://covidsc.d24h.hk/data, Covidscope provide the data in 10X format therefore you can read the three .gz files using Seurat package's function ```Read10X```. An example is given below
 ```sh
 data <- Read10X("lee_2020/", gene.column = 1) # default tsv.gz files (downloaded from Covidscope)
 srt_obj <- CreateSeuratObject(data)
 ```
+
+## Case study with Covidscope:
+
+The integrated COVID-19 data from 20 studies with carefully curated metadata architected under Scope+ enables many novel possibilities for downstream analyses. For example, using condition outcomes and cell type labels, one could perform case-control studies as well as multi-conditional studies examining composition change, expression shift, perturbation analysis and a range of other analyses in a cell type-specific manner. By comparing multiple datasets, researchers can identify novel findings and validate them across multiple datasets. Integrating multiple data sets significantly increases the sample size, which opens the opportunity to examine various sub-populations which is not possible with individual studies. In this user guide, we outline two such case studies. 
+
+### Case study 1: Combining 20 studies allows the identification of common signatures in severe patients 
+
+Case study 1 examines the existence of a common signature that distinguishes cells found in mild and severe COVID-19 patients across multiple data sets. 
+
+One of the functionality of Covidscope is that it allows us to selectively focus on specific cell types and retrieve all relevant data. Here, we focus on the CD14 monocytes cell type as this is one of the key players in COVID-19. 
+
+Once we download all CD14 monocytes cells from the 20 studies from Covidscope, we can run clustering algorithms to obtain clusters and identify clusters that are significantly enriched in the amount of severe cells. 
+
+```
+# we can use the Leiden community detection algorithm implemented in monocle3 for clustering
+# monocle3 has been recommended as one of the best clustering algorithms in a highly cited benchmarking paper on single-cell clustering (Yu, L., Cao, Y., Yang, J. Y., & Yang, P. (2022). Benchmarking clustering algorithms on estimating the number of cell types from single-cell RNA-sequencing data. Genome biology, 23(1), 49.)
+
+library(monocle3) 
+data <- cluster_cells(data)  # assuming you have the expression matrix of all CD14 monocytes cells 
+clustering_result <- data@clusters$UMAP$cluster_result$optim_res$membership
+```
+
+Based on the clustering result, cluster 18 has > 75 % of severe cells, suggesting enrichment of this cluster in severe cells. Additionally, we used Shannon’s diversity index to quantify diversity of the cells in each cluster belonging to multiple datasets. Cluster 18 has high Shannon’s diversity index, suggesting this cluster contains cells from multiple datasets that have clustered together due to similar expression pattern.  
+
+<p align="center">
+  <img width="800"  src="img/Case1-Fig1.png">
+</p>
+
+
+Next, we use marker gene identification algorithm to find marker genes to learn the characteristic of this cluster. 
+
+```
+# here we use scran, a popular single-cell analytical package to find marker genes in cluster 18. 
+groups <- clustering_result # the clustering result from previous stsep 
+groups[groups != “cluster18] <- “remaining clusters” # make the comparison to be cluster 18 vs remaining clusters 
+markers <- findMarkers( data,  groups = groups)  
+```
+
+We found the top 10 marker genes to be: IGLC3, IGLC2, IGHG2, IGHM, IGHG4, IGHG3, IGLC7, DEFA1B, DEFA1B, FCER1A, IGHA2. These genes highlight significant immune activation, both in the adaptive (antibody production) and innate (defensins, inflammatory mediators) arms of the immune system. These genes are potentially related to the severe inflammation or cytokine storms observed in the severe response. Specifically:
+IGLC gene family belongs to the immunoglobulin light chains and suggests significant B-cell activation. 
+IgA is important for mucosal immunity, particularly in the respiratory tract. 
+DEFA gene family encode antimicrobial peptides. This indicates the innate immune system is attempting to control bacterial infections, which are common in severe cases.
+Increased FCER1A expression could point to an enhanced inflammatory response. 
+This highlights the power of the atlas in revealing common immune signatures across different datasets. 
+
+### Case study 2: Combining 20 studies allows age - based comparison 
+
+The power of combining multiple data sets is that it opens the opportunity to examine various sub-populations across many data sets. For example, the figure below shows the age distribution of all samples in the 20 datasets. Each age group has large number of samples that can be used for downstream analysis. In this case study, we compare the molecular characteristics underlying mild and severe patients and assess how they differ in the two age groups of 41- 50 and 71-80. Note that this comparison is not possible if we only had individual study, due to the limited number of individuals in each age group in individual study.
+
+<p align="center">
+  <img width="800"  src="img/Case2-Fig1.png">
+</p>
+
+To assess the molecular characteristics behind each patient, we can first extract a series of patient-based feature representation from the cellxgene expression matrix. This can be constructed using the package scFeatures which generate a range of feature types belonging to cell type proportion, cell type gene expression, bulk gene expression, pathway expression and cell cell communication. Note we have already computed the feature representations for all individuals from the 20 datasets and is also available for visualisation on the Covidscope web portal. 
+
+```
+library(scFeatures) 
+scfeatures_result <- scFeatures(data =  data_expression_matrix,  # assuming you have downloaded the gene expression matrix from the 41-50 and 71-80 age group 
+                                sample = data$sample,  # the sample id of each cell 
+                                celltype = data$celltype, # the cell type of each cell 
+                                type = "scrna",   #specify this is a single-cell RNA-seq data 
+                                species = "Homo sapiens")
+```
+
+Once we generated the features, we can visualise the features as shown on the Covidscope website, as well as assess whether the features can distinguish between mild and severe patients in the two age groups. 
+
+```
+Here we use classifyR, which provide wrapper functions for multiple machine learning classification model and cross-validation function. 
+library(classifyR) 
+classifyr_result <- crossValidate(scfeatures_result,
+                                 outcome, 
+                                 classifier = "SVM",
+                                 nFolds = 3, 
+                                 nRepeats = 5, 
+                                 nCores = 5  )
+```
+
+In the accuracy boxplot below, we can see that each of the feature types have different performance for the 41-50 and the 71-80 age group. For example, some feature types are able to accurately distinguish the mild and severe patients in the 41 - 50 age group, but not for the 71-80 age group, and vice versa. 
+
+Next, we select the feature type “pathway GSVA comorbidity” and do further exploration. This feature type represents the pathway enrichment of genes in multiple comorbidity conditions. It achieved 80% accuracy on distinguishing the mild and severe patients in the 71-80 age group, but drop to near 65% accuracy for the 41- 50 age group. 
+
+<p align="center">
+  <img width="800"  src="img/Case2-Fig2.png">
+</p>
+
+
+By visualing the pathway enrichment score using heatmap, it becomes clear that in the 71-80 age group, the severe/critical patients have higher pathway enrichment in comorbidities such as heart disease, pulmonary disease and hypertension compared to the mild/moderate patient. In comparison, there is no clear distinguishing pattern in the 41-50 age group. This is consistent with the general belief that older individuals with pre-existing health conditions are more vulnerable to severe outcomes from COVID-19. 
+
+<p align="center">
+  <img width="800"  src="img/Case2-Fig3.png">
+</p>
+
