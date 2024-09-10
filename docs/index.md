@@ -125,7 +125,7 @@ If the whole reimplementation process is successful by following the tutorial, y
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/nyrCot4i3kQ?si=dU6fifeE4105pYpt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-## Explanation on input files
+### Explanation on input files
 
 Example input files are provided for your reference. You need the following three input files in Scope+ to be imported into MongoDB and they needed to be in .csv format.
 
@@ -165,7 +165,7 @@ colnames(umap_coord) <- c(”id“, “UMAP1”,”UMAP2”)
 write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 ```
 
-## Input file format
+### Input file format
 <table>
  <td>**File name**
 
@@ -211,7 +211,7 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
   </tr>
 </table>
 
-## Database collection 
+### Database collection 
 
 <table>
   <tr>
