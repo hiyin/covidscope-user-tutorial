@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="400"  src="img/Logo_gradient.png">
+  <img width="800"  src="img/Logo_gradient.png">
 </p>
 
 # Scope+ User Tutorial 
@@ -465,14 +465,15 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 
 </table>
 
-## How to use Covidscope data
+## How to use Covidscope data in R
+
 For any user would like to use Covidscope data, downloaded from https://covidsc.d24h.hk/data, Covidscope provide the data in 10X format therefore you can read the three .gz files using Seurat package's function ```Read10X```. An example is given below
 ```sh
 data <- Read10X("lee_2020/", gene.column = 1) # default tsv.gz files (downloaded from Covidscope)
 srt_obj <- CreateSeuratObject(data)
 ```
 
-## Case study with Covidscope:
+## Case study with Covidscope
 
 The integrated COVID-19 data from 20 studies with carefully curated metadata architected under Scope+ enables many novel possibilities for downstream analyses. For example, using condition outcomes and cell type labels, one could perform case-control studies as well as multi-conditional studies examining composition change, expression shift, perturbation analysis and a range of other analyses in a cell type-specific manner. By comparing multiple datasets, researchers can identify novel findings and validate them across multiple datasets. Integrating multiple data sets significantly increases the sample size, which opens the opportunity to examine various sub-populations which is not possible with individual studies. In this user guide, we outline two such case studies. 
 
@@ -493,18 +494,18 @@ data <- cluster_cells(data)  # assuming you have the expression matrix of all CD
 clustering_result <- data@clusters$UMAP$cluster_result$optim_res$membership
 ```
 
-Based on the clustering result, cluster 18 has > 75 % of severe cells, suggesting enrichment of this cluster in severe cells. Additionally, we used Shannon’s diversity index to quantify diversity of the cells in each cluster belonging to multiple datasets. Cluster 18 has high Shannon’s diversity index, suggesting this cluster contains cells from multiple datasets that have clustered together due to similar expression pattern.  
+Based on the clustering result, cluster 18 has > 75 % of severe cells, suggesting enrichment of this cluster in severe cells. Additionally, we used Shannon’s diversity index to quantify diversity of the cells in each cluster belonging to multiple datasets. Cluster 18 has high Shannon’s diversity index, suggesting this cluster contains cells from multiple datasets that have clustered together due to similar expression patterns.  
 
 <p align="center">
   <img width="800"  src="img/Case1-Fig1.png">
 </p>
 
 
-Next, we use marker gene identification algorithm to find marker genes to learn the characteristic of this cluster. 
+Next, we use marker gene identification algorithm to find marker genes to learn the characteristics of this cluster. 
 
 ```
 # here we use scran, a popular single-cell analytical package to find marker genes in cluster 18. 
-groups <- clustering_result # the clustering result from previous stsep 
+groups <- clustering_result # the clustering result from previous step 
 groups[groups != “cluster18] <- “remaining clusters” # make the comparison to be cluster 18 vs remaining clusters 
 markers <- findMarkers( data,  groups = groups)  
 ```
@@ -518,13 +519,13 @@ This highlights the power of the atlas in revealing common immune signatures acr
 
 ### Case study 2: Combining 20 studies allows age - based comparison 
 
-The power of combining multiple data sets is that it opens the opportunity to examine various sub-populations across many data sets. For example, the figure below shows the age distribution of all samples in the 20 datasets. Each age group has large number of samples that can be used for downstream analysis. In this case study, we compare the molecular characteristics underlying mild and severe patients and assess how they differ in the two age groups of 41- 50 and 71-80. Note that this comparison is not possible if we only had individual study, due to the limited number of individuals in each age group in individual study.
+The power of combining multiple data sets is that it opens the opportunity to examine various sub-populations across many data sets. For example, the figure below shows the age distribution of all samples in the 20 datasets. Each age group has a large number of samples that can be used for downstream analysis. In this case study, we compare the molecular characteristics underlying mild and severe patients and assess how they differ in the two age groups of 41- 50 and 71-80. Note that this comparison is not possible if we only had individual study, due to the limited number of individuals in each age group in individual study.
 
 <p align="center">
   <img width="800"  src="img/Case2-Fig1.png">
 </p>
 
-To assess the molecular characteristics behind each patient, we can first extract a series of patient-based feature representation from the cellxgene expression matrix. This can be constructed using the package scFeatures which generate a range of feature types belonging to cell type proportion, cell type gene expression, bulk gene expression, pathway expression and cell cell communication. Note we have already computed the feature representations for all individuals from the 20 datasets and is also available for visualisation on the Covidscope web portal. 
+To assess the molecular characteristics behind each patient, we can first extract a series of patient-based feature representations from the cellxgene expression matrix. This can be constructed using the package scFeatures which generate a range of feature types belonging to cell type proportion, cell type gene expression, bulk gene expression, pathway expression and cell cell communication. Note we have already computed the feature representations for all individuals from the 20 datasets and is also available for visualisation on the Covidscope web portal. 
 
 ```
 library(scFeatures) 
@@ -538,7 +539,7 @@ scfeatures_result <- scFeatures(data =  data_expression_matrix,  # assuming you 
 Once we generated the features, we can visualise the features as shown on the Covidscope website, as well as assess whether the features can distinguish between mild and severe patients in the two age groups. 
 
 ```
-Here we use classifyR, which provide wrapper functions for multiple machine learning classification model and cross-validation function. 
+Here we use classifyR, which provides wrapper functions for multiple machine learning classification model and cross-validation function. 
 library(classifyR) 
 classifyr_result <- crossValidate(scfeatures_result,
                                  outcome, 
@@ -557,7 +558,7 @@ Next, we select the feature type “pathway GSVA comorbidity” and do further e
 </p>
 
 
-By visualing the pathway enrichment score using heatmap, it becomes clear that in the 71-80 age group, the severe/critical patients have higher pathway enrichment in comorbidities such as heart disease, pulmonary disease and hypertension compared to the mild/moderate patient. In comparison, there is no clear distinguishing pattern in the 41-50 age group. This is consistent with the general belief that older individuals with pre-existing health conditions are more vulnerable to severe outcomes from COVID-19. 
+By visualising the pathway enrichment score using heatmap, it becomes clear that in the 71-80 age group, the severe/critical patients have higher pathway enrichment in comorbidities such as heart disease, pulmonary disease and hypertension compared to the mild/moderate patient. In comparison, there is no clear distinguishing pattern in the 41-50 age group. This is consistent with the general belief that older individuals with pre-existing health conditions are more vulnerable to severe outcomes from COVID-19. 
 
 <p align="center">
   <img width="800"  src="img/Case2-Fig3.png">
