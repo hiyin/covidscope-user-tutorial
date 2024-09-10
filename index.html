@@ -45,12 +45,12 @@
                 <li class="toctree-l1 current"><a class="reference internal current" href=".">Home</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#what-is-scope">What  is Scope+?</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#system-dependencies">System Dependencies</a>
-    </li>
-        </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#apply-scope-to-an-example-atlas-dataset">Apply Scope+ to an example atlas dataset</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#dependencies">Dependencies</a>
+    </li>
+        </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#prepare-your-data-for-scope-reimplementation">Prepare your data for Scope+ reimplementation</a>
         <ul>
@@ -63,6 +63,16 @@
     <li class="toctree-l2"><a class="reference internal" href="#input-file-format">Input file format</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#database-collection">Database collection</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#how-to-use-covidscope-data">How to use Covidscope data</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#case-study-with-covidscope">Case study with Covidscope:</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#case-study-1-combining-20-studies-allows-the-identification-of-common-signatures-in-severe-patients">Case study 1: Combining 20 studies allows the identification of common signatures in severe patients</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#case-study-2-combining-20-studies-allows-age-based-comparison">Case study 2: Combining 20 studies allows age - based comparison</a>
+    </li>
+        </ul>
     </li>
     </ul>
                 </li>
@@ -97,18 +107,18 @@
 <h1 id="scope-user-tutorial">Scope+ User Tutorial</h1>
 <h2 id="what-is-scope">What  is Scope+?</h2>
 <p>Scope+ allows you to develop your own single-cell atlas portal using its architecture, and you only need three input files to make this happen!</p>
-<h3 id="system-dependencies">System Dependencies</h3>
+<h2 id="apply-scope-to-an-example-atlas-dataset">Apply Scope+ to an example atlas dataset</h2>
+<p>This is a quick and minimal tutorial to show you how to adopt Scope+ architecture to your own dataset using our example dataset (which resemble yours in terms of format)!</p>
+<ol>
+<li>Install the system dependencies listed above, MongoDB, Python, MongoDB Compass (optional) and sqlite.</li>
+</ol>
+<h3 id="dependencies">Dependencies</h3>
 <ul>
 <li>MongoDB installed (version 5.0.9 or greater is recommended) <a href="https://www.mongodb.com/docs/v5.0/installation/">Download</a></li>
 <li>Python installed (version 3.9 is recommended) <a href="https://www.python.org/downloads/">Download</a></li>
 <li>MongoDB Compass installed (version 1.39.4 is recommended but this is optional, for visual operation of the database) <a href="https://www.mongodb.com/try/download/compass">Download</a></li>
-<li>sqlite installed (version 3.37.0 is recommended) <a href="https://www.sqlite.org/download.html">Download</a></li>
-</ul>
-<h2 id="apply-scope-to-an-example-atlas-dataset">Apply Scope+ to an example atlas dataset</h2>
-<p>This is a quick and minimal tutorial to show you how to adopt Scope+ architecture to your own dataset using our example dataset (which resemble yours in terms of format)!</p>
-<ol>
 <li>
-<p>Install the system dependencies listed above, MongoDB, Python, MongoDB Compass (optional) and sqlite.</p>
+<p>sqlite installed (version 3.37.0 is recommended) <a href="https://www.sqlite.org/download.html">Download</a></p>
 </li>
 <li>
 <p>Create a database in MongoDB named cov19atlas_new, and create three collections namely under the database</p>
@@ -136,7 +146,7 @@
 <li>
 <p>Clone the repository, install the packages for Scope+ and run the web portal code</p>
 </li>
-</ol>
+</ul>
 <pre><code class="language-sh">$ git clone https://github.com/hiyin/scopeplus.git
 $ cd scopeplus
 
@@ -252,8 +262,7 @@ dense_matrix &lt;- sparse2triples(srt_obj[[&quot;RNA&quot;]]@counts)
 colnames(dense_matrix) &lt;- c(&quot;gene_name&quot;, &quot;barcode&quot;,&quot;expression&quot;)
 write.csv(dense_matrix, file=&quot;matrix.csv&quot;, row.names=FALSE) 
 </code></pre>
-<p>For large-scale single-cell data we also provide utilities to convert the 10X single-cell RNA-seq data to MongoDB import collection .csv format at <a href="https://github.com/hiyin/
-scopeplus-scripts/tree/main/utilities">here</a>.</p>
+<p>For large-scale single-cell data we also provide utilities to convert the 10X single-cell RNA-seq data to MongoDB import collection .csv format at <a href="https://github.com/hiyin/scopeplus_supp/tree/main/utilities">here</a>.</p>
 <ul>
 <li>UMAP:
 If you have run the UMAP step, otherwise please refer to Seurat UMAP method and run it first. </li>
@@ -561,11 +570,60 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 
 </table>
 
-<h1 id="how-to-use-covidscope-data">How to use Covidscope data</h1>
+<h2 id="how-to-use-covidscope-data">How to use Covidscope data</h2>
 <p>For any user would like to use Covidscope data, downloaded from https://covidsc.d24h.hk/data, Covidscope provide the data in 10X format therefore you can read the three .gz files using Seurat package's function <code>Read10X</code>. An example is given below</p>
 <pre><code class="language-sh">data &lt;- Read10X(&quot;lee_2020/&quot;, gene.column = 1) # default tsv.gz files (downloaded from Covidscope)
 srt_obj &lt;- CreateSeuratObject(data)
 </code></pre>
+<h2 id="case-study-with-covidscope">Case study with Covidscope:</h2>
+<p>The integrated COVID-19 data from 20 studies with carefully curated metadata architected under Scope+ enables many novel possibilities for downstream analyses. For example, using condition outcomes and cell type labels, one could perform case-control studies as well as multi-conditional studies examining composition change, expression shift, perturbation analysis and a range of other analyses in a cell type-specific manner. By comparing multiple datasets, researchers can identify novel findings and validate them across multiple datasets. Integrating multiple data sets significantly increases the sample size, which opens the opportunity to examine various sub-populations which is not possible with individual studies. In this user guide, we outline two such case studies. </p>
+<h3 id="case-study-1-combining-20-studies-allows-the-identification-of-common-signatures-in-severe-patients">Case study 1: Combining 20 studies allows the identification of common signatures in severe patients</h3>
+<p>Case study 1 examines the existence of a common signature that distinguishes cells found in mild and severe COVID-19 patients across multiple data sets. </p>
+<p>One of the functionality of Covidscope is that it allows us to selectively focus on specific cell types and retrieve all relevant data. Here, we focus on the CD14 monocytes cell type as this is one of the key players in COVID-19. </p>
+<p>Once we download all CD14 monocytes cells from the 20 studies from Covidscope, we can run clustering algorithms to obtain clusters and identify clusters that are significantly enriched in the amount of severe cells. </p>
+<pre><code># we can use the Leiden community detection algorithm implemented in monocle3 for clustering
+# monocle3 has been recommended as one of the best clustering algorithms in a highly cited benchmarking paper on single-cell clustering (Yu, L., Cao, Y., Yang, J. Y., &amp; Yang, P. (2022). Benchmarking clustering algorithms on estimating the number of cell types from single-cell RNA-sequencing data. Genome biology, 23(1), 49.)
+
+library(monocle3) 
+data &lt;- cluster_cells(data)  # assuming you have the expression matrix of all CD14 monocytes cells 
+clustering_result &lt;- data@clusters$UMAP$cluster_result$optim_res$membership
+</code></pre>
+<p>Based on the clustering result, cluster 18 has &gt; 75 % of severe cells, suggesting enrichment of this cluster in severe cells. Additionally, we used Shannon’s diversity index to quantify diversity of the cells in each cluster belonging to multiple datasets. Cluster 18 has high Shannon’s diversity index, suggesting this cluster contains cells from multiple datasets that have clustered together due to similar expression pattern.  </p>
+<p>Next, we use marker gene identification algorithm to find marker genes to learn the characteristic of this cluster. </p>
+<pre><code># here we use scran, a popular single-cell analytical package to find marker genes in cluster 18. 
+groups &lt;- clustering_result # the clustering result from previous stsep 
+groups[groups != “cluster18] &lt;- “remaining clusters” # make the comparison to be cluster 18 vs remaining clusters 
+markers &lt;- findMarkers( data,  groups = groups)  
+</code></pre>
+<p>We found the top 10 marker genes to be: IGLC3, IGLC2, IGHG2, IGHM, IGHG4, IGHG3, IGLC7, DEFA1B, DEFA1B, FCER1A, IGHA2. These genes highlight significant immune activation, both in the adaptive (antibody production) and innate (defensins, inflammatory mediators) arms of the immune system. These genes are potentially related to the severe inflammation or cytokine storms observed in the severe response. Specifically:
+IGLC gene family belongs to the immunoglobulin light chains and suggests significant B-cell activation. 
+IgA is important for mucosal immunity, particularly in the respiratory tract. 
+DEFA gene family encode antimicrobial peptides. This indicates the innate immune system is attempting to control bacterial infections, which are common in severe cases.
+Increased FCER1A expression could point to an enhanced inflammatory response. 
+This highlights the power of the atlas in revealing common immune signatures across different datasets. </p>
+<h3 id="case-study-2-combining-20-studies-allows-age-based-comparison">Case study 2: Combining 20 studies allows age - based comparison</h3>
+<p>The power of combining multiple data sets is that it opens the opportunity to examine various sub-populations across many data sets. For example, the figure below shows the age distribution of all samples in the 20 datasets. Each age group has large number of samples that can be used for downstream analysis. In this case study, we compare the molecular characteristics underlying mild and severe patients and assess how they differ in the two age groups of 41- 50 and 71-80. Note that this comparison is not possible if we only had individual study, due to the limited number of individuals in each age group in individual study.</p>
+<p>To assess the molecular characteristics behind each patient, we can first extract a series of patient-based feature representation from the cellxgene expression matrix. This can be constructed using the package scFeatures which generate a range of feature types belonging to cell type proportion, cell type gene expression, bulk gene expression, pathway expression and cell cell communication. Note we have already computed the feature representations for all individuals from the 20 datasets and is also available for visualisation on the Covidscope web portal. </p>
+<pre><code>library(scFeatures) 
+scfeatures_result &lt;- scFeatures(data =  data_expression_matrix,  # assuming you have downloaded the gene expression matrix from the 41-50 and 71-80 age group 
+                                sample = data$sample,  # the sample id of each cell 
+                                celltype = data$celltype, # the cell type of each cell 
+                                type = &quot;scrna&quot;,   #specify this is a single-cell RNA-seq data 
+                                species = &quot;Homo sapiens&quot;)
+</code></pre>
+<p>Once we generated the features, we can visualise the features as shown on the Covidscope website, as well as assess whether the features can distinguish between mild and severe patients in the two age groups. </p>
+<pre><code>Here we use classifyR, which provide wrapper functions for multiple machine learning classification model and cross-validation function. 
+library(classifyR) 
+classifyr_result &lt;- crossValidate(scfeatures_result,
+                                 outcome, 
+                                 classifier = &quot;SVM&quot;,
+                                 nFolds = 3, 
+                                 nRepeats = 5, 
+                                 nCores = 5  )
+</code></pre>
+<p>In the accuracy boxplot below, we can see that each of the feature types have different performance for the 41-50 and the 71-80 age group. For example, some feature types are able to accurately distinguish the mild and severe patients in the 41 - 50 age group, but not for the 71-80 age group, and vice versa. </p>
+<p>Next, we select the feature type “pathway GSVA comorbidity” and do further exploration. This feature type represents the pathway enrichment of genes in multiple comorbidity conditions. It achieved 80% accuracy on distinguishing the mild and severe patients in the 71-80 age group, but drop to near 65% accuracy for the 41- 50 age group. </p>
+<p>By visualing the pathway enrichment score using heatmap, it becomes clear that in the 71-80 age group, the severe/critical patients have higher pathway enrichment in comorbidities such as heart disease, pulmonary disease and hypertension compared to the mild/moderate patient. In comparison, there is no clear distinguishing pattern in the 41-50 age group. This is consistent with the general belief that older individuals with pre-existing health conditions are more vulnerable to severe outcomes from COVID-19. </p>
               
             </div>
           </div><footer>
@@ -609,5 +667,5 @@ srt_obj &lt;- CreateSeuratObject(data)
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2023-10-25 16:11:08.146513+00:00
+Build Date UTC : 2024-09-10 14:46:39.832520+00:00
 -->
