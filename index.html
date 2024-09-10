@@ -56,13 +56,13 @@
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#demo">Demo</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#explanation-on-input-files">Explanation on input files</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#input-file-format">Input file format</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#database-collection">Database collection</a>
+    </li>
         </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#explanation-on-input-files">Explanation on input files</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#input-file-format">Input file format</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#database-collection">Database collection</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#how-to-use-covidscope-data-in-r">How to use Covidscope data in R</a>
     </li>
@@ -236,7 +236,7 @@ write.csv(towrite_matrix, file=&quot;importdata_matrix.csv&quot;, row.names=FALS
 <p>If the whole reimplementation process is successful by following the tutorial, you will have a working atlas web portal same as the one at Youtube video below:</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/nyrCot4i3kQ?si=dU6fifeE4105pYpt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-<h2 id="explanation-on-input-files">Explanation on input files</h2>
+<h3 id="explanation-on-input-files">Explanation on input files</h3>
 <p>Example input files are provided for your reference. You need the following three input files in Scope+ to be imported into MongoDB and they needed to be in .csv format.</p>
 <ul>
 <li>Metadata</li>
@@ -271,7 +271,7 @@ If you have run the UMAP step, otherwise please refer to Seurat UMAP method and 
 colnames(umap_coord) &lt;- c(”id“, “UMAP1”,”UMAP2”)
 write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
 </code></pre>
-<h2 id="input-file-format">Input file format</h2>
+<h3 id="input-file-format">Input file format</h3>
 <table>
  <td>**File name**
 
@@ -317,7 +317,7 @@ write.csv(umap_coord, file=”umap.csv”, row.names=FALSE)
   </tr>
 </table>
 
-<h2 id="database-collection">Database collection</h2>
+<h3 id="database-collection">Database collection</h3>
 <table>
   <tr>
    <td>**Column name**
@@ -682,5 +682,5 @@ classifyr_result &lt;- crossValidate(scfeatures_result,
 
 <!--
 MkDocs version : 1.5.3
-Build Date UTC : 2024-09-10 15:48:02.423304+00:00
+Build Date UTC : 2024-09-10 15:48:46.161945+00:00
 -->
